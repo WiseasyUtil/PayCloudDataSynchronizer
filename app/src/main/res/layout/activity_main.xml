@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/create_bank_card_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="transCreateOrder"
+        android:text="create bankcard order"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bank_card_order_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="transComplete"
+        android:text="bankcard trans complete"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bank_card_trans_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="transClose"
+        android:text="bankcard trans close"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/trans_log_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="transLogUpload"
+        android:text="bankcard trans log upload"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/upload_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="upLoadFile"
+        android:text="settlement upload"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/trans_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deviceInit"
+        android:text="trans list"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/trans_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deviceInit"
+        android:text="trans detail"
+        android:visibility="gone" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

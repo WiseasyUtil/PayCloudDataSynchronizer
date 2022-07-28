@@ -1,0 +1,24 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 15
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+    // OkHttp
+    api "com.squareup.okhttp3:okhttp:4.9.2"
+    api "com.squareup.okhttp3:logging-interceptor:4.9.2"
+    //retrofit2
+    api 'com.squareup.retrofit2:retrofit:2.7.1'
+    api 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+}
