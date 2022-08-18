@@ -1,6 +1,6 @@
 package com.wiseasy.pds.request;
 
-import com.wiseasy.pds.response.TransactionCancelResponse;
+import com.wiseasy.pds.response.BaseResponse;
 
 /**
  * Created by Android Studio.
@@ -8,7 +8,7 @@ import com.wiseasy.pds.response.TransactionCancelResponse;
  * Date: 8/17/2022
  * Time: 5:11 PM
  */
-class CashierTransCancelRequest extends BaseRequest<TransactionCancelResponse>{
+class CashierTransCancelRequest extends BaseRequest<BaseResponse>{
     String terminal_sn;
     String merchant_order_no;
     String trans_no;
