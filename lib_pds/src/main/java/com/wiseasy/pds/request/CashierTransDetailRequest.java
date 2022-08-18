@@ -1,6 +1,5 @@
 package com.wiseasy.pds.request;
 
-import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.response.TransactionDetailQueryResponse;
 
 /**
