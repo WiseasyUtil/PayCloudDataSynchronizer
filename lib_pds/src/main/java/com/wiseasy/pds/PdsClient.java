@@ -60,6 +60,23 @@ public class PdsClient {
     }
 
     /**
+     * init
+     *
+     * @param deviceSn device sn
+     * @param appId    app id
+     * @param sign     sign method
+     * @param callBack callback
+     */
+    private void initDevice(String deviceSn, String appId, PdsBaseSign sign, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
+        ParamsSignManager.init(deviceSn, appId, sign);
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", "cashier.basis.device.init");
+        map.put("query_pay_info", isQueryPayInfo);
+        JSONObject params = ParamsSignManager.signParams(map);
+        RetrofitClient.sendCommonRequest(params, DeviceInitResponse.class, callBack);
+    }
+
+    /**
      * dataBase init
      *
      * @param context

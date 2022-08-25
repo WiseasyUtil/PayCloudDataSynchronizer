@@ -12,6 +12,11 @@ class CashierTransDetailRequest extends BaseRequest<TransactionDetailQueryRespon
     String terminal_sn;
     String trans_no;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.trans.detail";
+    }
+
     public void setTrans_no(String trans_no) {
         this.trans_no = trans_no;
     }

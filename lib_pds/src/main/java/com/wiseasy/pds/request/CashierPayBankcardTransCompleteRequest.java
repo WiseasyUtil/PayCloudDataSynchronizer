@@ -31,6 +31,11 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String rate_change_type;
     JSONObject bankcard_ext_params;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.bankcard.trans.complete";
+    }
+
     public String getTrans_no() {
         return trans_no;
     }

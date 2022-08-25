@@ -12,6 +12,11 @@ class CashierPayBankcardTransSettleUploadRequest extends BaseRequest<BaseRespons
     String terminal_sn;
     String settle_file_key;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.bankcard.trans.settle.upload";
+    }
+
     public void setSettle_file_key(String settle_file_key) {
         this.settle_file_key = settle_file_key;
     }

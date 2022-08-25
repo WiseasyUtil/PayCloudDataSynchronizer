@@ -3,7 +3,7 @@ package com.wiseasy.pds.sign;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wiseasy.pds.sign.RSA;
+import com.wiseasy.pds.PdsBaseSign;
 
 import java.util.*;
 
@@ -15,33 +15,31 @@ import java.util.*;
  */
 public class SignHandler {
 
-    private static String INPUT_CHARSET = "UTF-8";
+    public static PdsBaseSign sign;
 
     /**
      * Signature function
      *
-     * @param privateKey
      * @param params     Parameters to be signed
      * @return 签名字符串
      */
-    public static String sign(String privateKey, Map<String, Object> params) {
-        String sign = signWithRSA(params, privateKey);
+    public static String sign(Map<String, Object> params) {
+        String sign = signWithRSA(params);
         return sign;
     }
 
     /**
      * verifySign
      *
-     * @param publicKey
      * @param params    Parameters to be verified
      * @return
      */
-    public static boolean verifySign(String publicKey, Map<String, Object> params) {
+    public static boolean verifySign(Map<String, Object> params) {
         String sign = (String) params.get("sign");
-        return verifySignWithRSA(params, publicKey, sign);
+        return verifySignWithRSA(params, sign);
     }
 
-    private static String signWithRSA(Map<String, Object> sParaTemp, String privateKey) {
+    private static String signWithRSA(Map<String, Object> sParaTemp) {
         // Remove empty values and 'sign' parameters in the array
         Map<String, Object> sPara = paraFilter(sParaTemp);
 
@@ -50,11 +48,11 @@ public class SignHandler {
         String prestr = createLinkString(sPara);
         Log.e("待签名字符串", prestr);
         // Sign
-        String mysign = RSA.sign(prestr, privateKey, INPUT_CHARSET);
+        String mysign = sign.sign(prestr);
         return mysign;
     }
 
-    private static boolean verifySignWithRSA(Map<String, Object> sParaTemp, String publicKey, String sign) {
+    private static boolean verifySignWithRSA(Map<String, Object> sParaTemp, String result) {
         // Remove empty values and 'sign' parameters in the array
         Map<String, Object> sPara = paraFilter(sParaTemp);
 
@@ -63,7 +61,7 @@ public class SignHandler {
         String prestr = createLinkString(sPara);
 
         // Verify signature
-        return RSA.verify(prestr, sign, publicKey, INPUT_CHARSET);
+        return sign.verifySign(prestr,result);
     }
 
     /**

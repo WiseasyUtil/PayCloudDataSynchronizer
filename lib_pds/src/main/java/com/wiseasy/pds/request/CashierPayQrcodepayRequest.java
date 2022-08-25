@@ -16,6 +16,11 @@ class CashierPayQrcodepayRequest extends BaseRequest<CScanBPaymentResponse>{
     double order_amount;
     String description;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.qrcodepay";
+    }
+
     public void setTerminal_sn(String terminal_sn) {
         this.terminal_sn = terminal_sn;
     }

@@ -43,6 +43,11 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
     String rate_change_type;
     JSONObject bankcard_ext_params;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.bankcard.trans.create";
+    }
+
     public String getTrans_no() {
         return trans_no;
     }

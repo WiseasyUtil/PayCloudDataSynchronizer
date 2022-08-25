@@ -19,6 +19,11 @@ class CashierPayOtpcodepayRequest extends BaseRequest<OtpCodePayResponse> {
     String merchant_order_no;
     String description;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.otpcodepay";
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }

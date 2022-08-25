@@ -17,6 +17,11 @@ class CashierTransListRequest extends BaseRequest<TransactionListQueryResponse> 
     String trans_keywords;
     String pay_method_id;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.trans.list";
+    }
+
     public void setPrice_currency(String price_currency) {
         this.price_currency = price_currency;
     }

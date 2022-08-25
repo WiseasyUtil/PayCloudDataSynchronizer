@@ -2,8 +2,9 @@ package com.wiseasy.pds.network;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wiseasy.pds.PdsBaseSign;
 import com.wiseasy.pds.request.BaseRequest;
-import com.wiseasy.pds.response.BaseResponse;
+import com.wiseasy.pds.sign.DefaultParamSign;
 import com.wiseasy.pds.sign.SignHandler;
 
 import java.util.HashMap;
@@ -25,16 +26,6 @@ public class ParamsSignManager {
     private static String appId;
 
     /**
-     * rsa private key
-     */
-    private static String privateKey;
-
-    /**
-     * rsa public key
-     */
-    private static String publicKey;
-
-    /**
      * device sn
      */
     private static String deviceSn;
@@ -42,8 +33,13 @@ public class ParamsSignManager {
     public static void init(String sn, String id, String key, String pubKey) {
         deviceSn = sn;
         appId = id;
-        privateKey = key;
-        publicKey = pubKey;
+        SignHandler.sign = new DefaultParamSign(key, pubKey);
+    }
+
+    public static void init(String sn, String id, PdsBaseSign sign) {
+        deviceSn = sn;
+        appId = id;
+        SignHandler.sign = sign;
     }
 
     /**
@@ -74,7 +70,7 @@ public class ParamsSignManager {
         JSONObject params = JSONObject.parseObject(JSON.toJSONString(request));
         addPublicParams(params);
         params.put("method", request.getRequestMethod());
-        String signData = SignHandler.sign(privateKey, params);
+        String signData = SignHandler.sign(params);
         params.put("sign", signData);
         return params;
     }
@@ -90,7 +86,7 @@ public class ParamsSignManager {
             return new JSONObject();
         }
         addPublicParams(map);
-        String signData = SignHandler.sign(privateKey, map);
+        String signData = SignHandler.sign(map);
         map.put("sign", signData);
         return new JSONObject(map);
     }
@@ -98,10 +94,9 @@ public class ParamsSignManager {
     /**
      * response params veify
      *
-     * @param responseData
      * @return
      */
     public static boolean verifySign(JSONObject params) {
-        return SignHandler.verifySign(publicKey, params);
+        return SignHandler.verifySign(params);
     }
 }

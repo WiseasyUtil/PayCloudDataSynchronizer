@@ -13,6 +13,11 @@ class CashierPaySendotpRequest extends BaseRequest<SendOtpCodeResponse> {
     String pay_method_id;
     String phone;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.sendotp";
+    }
+
     public void setPay_method_id(String pay_method_id) {
         this.pay_method_id = pay_method_id;
     }

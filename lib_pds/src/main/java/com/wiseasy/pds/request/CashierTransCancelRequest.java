@@ -13,6 +13,11 @@ class CashierTransCancelRequest extends BaseRequest<BaseResponse>{
     String merchant_order_no;
     String trans_no;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.trans.cancel";
+    }
+
     public String getTerminal_sn() {
         return terminal_sn;
     }

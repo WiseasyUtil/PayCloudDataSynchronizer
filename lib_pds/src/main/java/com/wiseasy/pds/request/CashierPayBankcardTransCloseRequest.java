@@ -29,4 +29,9 @@ public class CashierPayBankcardTransCloseRequest extends BaseRequest<BaseRespons
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.bankcard.trans.close";
+    }
 }

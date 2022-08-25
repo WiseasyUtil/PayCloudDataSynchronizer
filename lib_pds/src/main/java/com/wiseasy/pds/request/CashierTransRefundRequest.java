@@ -16,6 +16,11 @@ class CashierTransRefundRequest extends  BaseRequest<TransactionRefundResponse>{
     String merchant_order_no;
     String description;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.trans.refund";
+    }
+
     public void setTerminal_sn(String terminal_sn) {
         this.terminal_sn = terminal_sn;
     }

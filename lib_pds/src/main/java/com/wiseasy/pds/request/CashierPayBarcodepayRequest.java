@@ -17,6 +17,11 @@ class CashierPayBarcodepayRequest extends BaseRequest<BScanCPaymentResponse> {
     double order_amount;
     String description;
 
+    @Override
+    public String getRequestMethod() {
+        return "cashier.pay.barcodepay";
+    }
+
     public String getMerchant_order_no() {
         return merchant_order_no;
     }
