@@ -41,6 +41,15 @@ public class PdsClient {
         initDevice(deviceSn, appId, privateKey, publicKey, isQueryPayInfo, callBack);
     }
 
+    public PdsClient(Context context, String url, String deviceSn, String appId, PdsBaseSign sign, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
+        //network init
+        RetrofitClient.init(url);
+        //database init
+        initDatabase(context);
+        //device init
+        initDevice(deviceSn, appId, sign, isQueryPayInfo, callBack);
+    }
+
     /**
      * init
      *
