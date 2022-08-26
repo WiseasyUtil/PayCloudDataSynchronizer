@@ -8,7 +8,7 @@ import com.wiseasy.pds.response.TransactionListQueryResponse;
  * Date: 2022/7/5
  * Time: 15:13
  */
-class CashierTransListRequest extends BaseRequest<TransactionListQueryResponse> {
+public class CashierTransListRequest extends BaseRequest<TransactionListQueryResponse> {
     String terminal_sn;
     String price_currency;
     int trans_type;

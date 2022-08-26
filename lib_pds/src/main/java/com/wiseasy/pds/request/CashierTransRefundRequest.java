@@ -7,8 +7,9 @@ import com.wiseasy.pds.response.TransactionRefundResponse;
  * User: pupan
  * Date: 8/18/2022
  * Time: 3:23 PM
+ * @author pupan
  */
-class CashierTransRefundRequest extends  BaseRequest<TransactionRefundResponse>{
+public class CashierTransRefundRequest extends  BaseRequest<TransactionRefundResponse>{
     String terminal_sn;
     String orig_merchant_order_no;
     String orig_trans_no;

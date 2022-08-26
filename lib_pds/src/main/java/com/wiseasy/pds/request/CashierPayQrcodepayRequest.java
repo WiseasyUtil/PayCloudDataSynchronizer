@@ -7,8 +7,9 @@ import com.wiseasy.pds.response.CScanBPaymentResponse;
  * User: pupan
  * Date: 8/16/2022
  * Time: 5:45 PM
+ * @author pupan
  */
-class CashierPayQrcodepayRequest extends BaseRequest<CScanBPaymentResponse>{
+public class CashierPayQrcodepayRequest extends BaseRequest<CScanBPaymentResponse>{
     String terminal_sn;
     String pay_method_id;
     String merchant_order_no;

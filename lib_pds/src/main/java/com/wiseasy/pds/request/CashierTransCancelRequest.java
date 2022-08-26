@@ -7,8 +7,9 @@ import com.wiseasy.pds.response.BaseResponse;
  * User: pupan
  * Date: 8/17/2022
  * Time: 5:11 PM
+ * @author pupan
  */
-class CashierTransCancelRequest extends BaseRequest<BaseResponse>{
+public class CashierTransCancelRequest extends BaseRequest<BaseResponse>{
     String terminal_sn;
     String merchant_order_no;
     String trans_no;

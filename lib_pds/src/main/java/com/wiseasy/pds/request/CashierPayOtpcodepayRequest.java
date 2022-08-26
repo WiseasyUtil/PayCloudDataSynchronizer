@@ -8,7 +8,7 @@ import com.wiseasy.pds.response.OtpCodePayResponse;
  * Date: 8/16/2022
  * Time: 5:53 PM
  */
-class CashierPayOtpcodepayRequest extends BaseRequest<OtpCodePayResponse> {
+public class CashierPayOtpcodepayRequest extends BaseRequest<OtpCodePayResponse> {
     String terminal_sn;
     String pay_method_id;
     String phone;

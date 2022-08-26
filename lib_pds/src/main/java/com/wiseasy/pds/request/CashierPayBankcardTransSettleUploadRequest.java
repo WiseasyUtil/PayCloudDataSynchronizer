@@ -7,8 +7,9 @@ import com.wiseasy.pds.response.BaseResponse;
  * User: pupan
  * Date: 2022/7/28
  * Time: 14:14
+ * @author pupan
  */
-class CashierPayBankcardTransSettleUploadRequest extends BaseRequest<BaseResponse> {
+public class CashierPayBankcardTransSettleUploadRequest extends BaseRequest<BaseResponse> {
     String terminal_sn;
     String settle_file_key;
 

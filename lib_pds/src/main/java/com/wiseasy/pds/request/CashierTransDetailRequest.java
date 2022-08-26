@@ -7,8 +7,9 @@ import com.wiseasy.pds.response.TransactionDetailQueryResponse;
  * User: pupan
  * Date: 8/17/2022
  * Time: 5:07 PM
+ * @author pupan
  */
-class CashierTransDetailRequest extends BaseRequest<TransactionDetailQueryResponse> {
+public class CashierTransDetailRequest extends BaseRequest<TransactionDetailQueryResponse> {
     String terminal_sn;
     String trans_no;
 
