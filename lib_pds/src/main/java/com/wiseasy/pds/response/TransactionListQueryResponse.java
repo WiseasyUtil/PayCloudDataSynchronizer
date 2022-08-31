@@ -13,6 +13,14 @@ public class TransactionListQueryResponse extends BaseResponse {
     int total;
     List<TransactionDetail> list;
 
+    public int getTotal() {
+        return total;
+    }
+
+    public List<TransactionDetail> getList() {
+        return list;
+    }
+
     public void setList(List<TransactionDetail> list) {
         this.list = list;
     }

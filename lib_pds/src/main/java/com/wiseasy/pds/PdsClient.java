@@ -3,6 +3,7 @@ package com.wiseasy.pds;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
 import com.wiseasy.pds.db.TableRecord;
@@ -131,6 +132,29 @@ public class PdsClient {
     public void execute(Context context, BaseRequest request) throws PdsException {
         checkInit();
         TableRecord.insert(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, ParamsSignManager.signParams(request).toJSONString());
+        UploadService.start(context);
+    }
+
+    /**
+     * get async data count
+     * @return
+     */
+    public int getAsyncDataCount() {
+        if (null == db) {
+            return 0;
+        }
+        JSONArray completeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION);
+        JSONArray closeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION);
+        JSONArray logCount = TableRecord.query(db, TableRecord.RECORD_TYPE_LOG);
+        return completeCount.size() + closeCount.size() + logCount.size();
+    }
+
+    /**
+     * start async upload service
+     *
+     * @param context
+     */
+    public void startAsyncService(Context context) {
         UploadService.start(context);
     }
 

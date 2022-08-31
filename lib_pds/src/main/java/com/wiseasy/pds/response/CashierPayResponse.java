@@ -9,4 +9,12 @@ package com.wiseasy.pds.response;
 public class CashierPayResponse extends BaseResponse {
     String trans_no;
     int trans_status;
+
+    public int getTrans_status() {
+        return trans_status;
+    }
+
+    public String getTrans_no() {
+        return trans_no;
+    }
 }
