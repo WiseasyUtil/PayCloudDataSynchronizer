@@ -14,10 +14,15 @@ import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.network.RetrofitApi;
 import com.wiseasy.pds.network.RetrofitClient;
 import com.wiseasy.pds.response.BaseResponse;
+import com.wiseasy.pds.util.FileMd5;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -76,6 +81,7 @@ public class UploadService extends IntentService {
         JSONArray endJSONArray = array;
         for (int i = 0; i > array.size(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
+            checkFileUpload(jsonObject);
             Call<JSONObject> result = serviceApi.sendRequest(RetrofitClient.createJsonRequestBody(jsonObject));
             try {
                 Response<JSONObject> data = result.execute();
@@ -87,6 +93,29 @@ public class UploadService extends IntentService {
             }
         }
         return endJSONArray;
+    }
+
+    public void checkFileUpload(JSONObject jsonObject) {
+        if (jsonObject.getString("method").equals("cashier.pay.bankcard.trans.complete")) {
+            if (null != jsonObject.getString("electron_sign_url")) {
+                File file = new File(jsonObject.getString("electron_sign_url"));
+                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("institution_no", jsonObject.getString("trans_no"))
+                        .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))
+                        .addFormDataPart("file_data", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+                        .build();
+                Call<JSONObject> result = serviceApi.sendFileRequest(body);
+                try {
+                    Response<JSONObject> data = result.execute();
+                    if (data.isSuccessful()) {
+                        jsonObject.remove("electron_sign_url");
+                        jsonObject.put("electron_sign_url", data.body().getString("file_key"));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

@@ -14,18 +14,13 @@ import java.util.List;
  */
 public class DeviceInitResponse extends BaseResponse {
     BaseInfo basic_info;
-    List<PayInfo> pay_info;
+    String pay_info;
     String aes_key_cipher;
     String aes_key_expire_time;
 
-    public List<PayInfo> getPay_info() {
+    public String getPay_info() {
         return pay_info;
     }
-
-    public void setBasic_info(BaseInfo basic_info) {
-        this.basic_info = basic_info;
-    }
-
     public String getAes_key_cipher() {
         return aes_key_cipher;
     }
@@ -147,72 +142,5 @@ class BaseInfo {
 
     public String getTimezone() {
         return timezone;
-    }
-}
-
-/**
- * 支付信息
- */
-class PayInfo {
-    String pay_scenario;
-    List<PayMethodInfo> pay_method_list;
-
-    public String getPay_scenario() {
-        return pay_scenario;
-    }
-
-    public List<PayMethodInfo> getPay_method_list() {
-        return pay_method_list;
-    }
-}
-
-/**
- * 支付方式信息
- */
-class PayMethodInfo {
-    String icon_url;
-    String pay_channel_id;
-    String is_alipay_plus;
-    String pay_method_id;
-    String supported_price_currencies;
-    String pay_method_configuration;
-    int sort;
-    String pay_method_name;
-    String supported_trans_type;
-
-    public String getPay_method_id() {
-        return pay_method_id;
-    }
-
-    public String getPay_method_name() {
-        return pay_method_name;
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public String getIcon_url() {
-        return icon_url;
-    }
-
-    public String getIs_alipay_plus() {
-        return is_alipay_plus;
-    }
-
-    public String getPay_channel_id() {
-        return pay_channel_id;
-    }
-
-    public String getPay_method_configuration() {
-        return pay_method_configuration;
-    }
-
-    public String getSupported_price_currencies() {
-        return supported_price_currencies;
-    }
-
-    public String getSupported_trans_type() {
-        return supported_trans_type;
     }
 }
