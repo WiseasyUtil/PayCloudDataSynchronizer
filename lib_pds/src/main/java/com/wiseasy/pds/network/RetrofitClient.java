@@ -212,7 +212,7 @@ public class RetrofitClient {
             } else {
                 JSONObject result = JSONObject.parseObject(respBody);
                 Object responseData = result.get("data");
-                if (null != data) {
+                if (null != responseData) {
                     String dataStr = result.getString("data");
                     result.putAll(JSONObject.parseObject(dataStr));
                 }
