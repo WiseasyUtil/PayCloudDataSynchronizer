@@ -145,4 +145,5 @@ public class OtpCodePayResponse extends BaseResponse{
     public void setVat_amount(double vat_amount) {
         this.vat_amount = vat_amount;
     }
+
 }

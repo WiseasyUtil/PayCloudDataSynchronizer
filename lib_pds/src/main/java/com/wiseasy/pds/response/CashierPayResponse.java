@@ -17,4 +17,12 @@ public class CashierPayResponse extends BaseResponse {
     public String getTrans_no() {
         return trans_no;
     }
+
+    public void setTrans_status(int trans_status) {
+        this.trans_status = trans_status;
+    }
+
+    public void setTrans_no(String trans_no) {
+        this.trans_no = trans_no;
+    }
 }

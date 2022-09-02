@@ -182,4 +182,133 @@ public class TransactionDetailQueryResponse extends BaseResponse {
     public String getVoucher_no() {
         return voucher_no;
     }
+
+    public void setTrans_no(String trans_no) {
+        this.trans_no = trans_no;
+    }
+
+    public void setOrig_trans_no(String orig_trans_no) {
+        this.orig_trans_no = orig_trans_no;
+
+    }
+
+    public void setPay_user_account_id(String pay_user_account_id) {
+        this.pay_user_account_id = pay_user_account_id;
+    }
+
+    public void setPay_channel_trans_no(String pay_channel_trans_no) {
+        this.pay_channel_trans_no = pay_channel_trans_no;
+    }
+
+    public void setPaid_amount(double paid_amount) {
+        this.paid_amount = paid_amount;
+    }
+
+    public void setTrans_amount(double trans_amount) {
+        this.trans_amount = trans_amount;
+    }
+
+    public void setDiscount_bpc(double discount_bpc) {
+        this.discount_bpc = discount_bpc;
+    }
+
+    public void setDiscount_bmopc(double discount_bmopc) {
+        this.discount_bmopc = discount_bmopc;
+    }
+
+    public void setTrans_status(int trans_status) {
+        this.trans_status = trans_status;
+    }
+
+    public void setAcquirer_no(String acquirer_no) {
+        this.acquirer_no = acquirer_no;
+    }
+
+    public void setTrans_type(int trans_type) {
+        this.trans_type = trans_type;
+    }
+
+    public void setPay_scenario(String pay_scenario) {
+        this.pay_scenario = pay_scenario;
+    }
+
+    public void setAuth_no(String auth_no) {
+        this.auth_no = auth_no;
+    }
+
+    public void setBatch_no(String batch_no) {
+        this.batch_no = batch_no;
+    }
+
+    public void setPay_method_name(String pay_method_name) {
+        this.pay_method_name = pay_method_name;
+    }
+
+    public void setPay_method_icon_url(String pay_method_icon_url) {
+        this.pay_method_icon_url = pay_method_icon_url;
+    }
+
+    public void setCreated_time(String created_time) {
+        this.created_time = created_time;
+    }
+
+    public void setCard_brand(String card_brand) {
+        this.card_brand = card_brand;
+    }
+
+    public void setPay_method_id(String pay_method_id) {
+        this.pay_method_id = pay_method_id;
+    }
+
+    public void setTrans_end_time(String trans_end_time) {
+        this.trans_end_time = trans_end_time;
+    }
+
+    public void setBankcard_ext_params(String bankcard_ext_params) {
+        this.bankcard_ext_params = bankcard_ext_params;
+    }
+
+    public void setCard_expire_date(String card_expire_date) {
+        this.card_expire_date = card_expire_date;
+    }
+
+    public void setCard_issuers_no(String card_issuers_no) {
+        this.card_issuers_no = card_issuers_no;
+    }
+
+    public void setCard_type(int card_type) {
+        this.card_type = card_type;
+    }
+
+    public void setElectron_sign_url(String electron_sign_url) {
+        this.electron_sign_url = electron_sign_url;
+    }
+
+    public void setPay_user_account_encrypt(String pay_user_account_encrypt) {
+        this.pay_user_account_encrypt = pay_user_account_encrypt;
+    }
+
+    public void setRate_change_type(String rate_change_type) {
+        this.rate_change_type = rate_change_type;
+    }
+
+    public void setRef_no(String ref_no) {
+        this.ref_no = ref_no;
+    }
+
+    public void setRelated_trans_status(String related_trans_status) {
+        this.related_trans_status = related_trans_status;
+    }
+
+    public void setSys_no(String sys_no) {
+        this.sys_no = sys_no;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
+    public void setVoucher_no(String voucher_no) {
+        this.voucher_no = voucher_no;
+    }
 }

@@ -86,4 +86,48 @@ class TransactionDetail {
     public String getPay_scenario() {
         return pay_scenario;
     }
+
+    public void setTrans_status(int trans_status) {
+        this.trans_status = trans_status;
+    }
+
+    public void setTrans_no(String trans_no) {
+        this.trans_no = trans_no;
+    }
+
+    public void setTrans_amount(double trans_amount) {
+        this.trans_amount = trans_amount;
+    }
+
+    public void setTrans_end_time(String trans_end_time) {
+        this.trans_end_time = trans_end_time;
+    }
+
+    public void setOrder_amount(double order_amount) {
+        this.order_amount = order_amount;
+    }
+
+    public void setPay_method_id(String pay_method_id) {
+        this.pay_method_id = pay_method_id;
+    }
+
+    public void setTrans_type(int trans_type) {
+        this.trans_type = trans_type;
+    }
+
+    public void setCreated_time(String created_time) {
+        this.created_time = created_time;
+    }
+
+    public void setPay_method_icon_url(String pay_method_icon_url) {
+        this.pay_method_icon_url = pay_method_icon_url;
+    }
+
+    public void setPay_method_name(String pay_method_name) {
+        this.pay_method_name = pay_method_name;
+    }
+
+    public void setPay_scenario(String pay_scenario) {
+        this.pay_scenario = pay_scenario;
+    }
 }

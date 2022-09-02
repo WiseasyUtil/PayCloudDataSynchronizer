@@ -18,4 +18,12 @@ public class TransactionRefundResponse extends  BaseResponse {
     public int getTrans_status() {
         return trans_status;
     }
+
+    public void setTrans_status(int trans_status) {
+        this.trans_status = trans_status;
+    }
+
+    public void setTrans_no(String trans_no) {
+        this.trans_no = trans_no;
+    }
 }
