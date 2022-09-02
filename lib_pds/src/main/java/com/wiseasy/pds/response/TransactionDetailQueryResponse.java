@@ -39,6 +39,15 @@ public class TransactionDetailQueryResponse extends BaseResponse {
     String created_time;
     String trans_end_time;
     String update_time;
+    String price_currency;
+
+    public void setPrice_currency(String price_currency) {
+        this.price_currency = price_currency;
+    }
+
+    public String getPrice_currency() {
+        return price_currency;
+    }
 
     public String getTrans_no() {
         return trans_no;
