@@ -98,20 +98,20 @@ public class RetrofitClient {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
-                    callBack.onError(ErrorStatus.API_ERROR, response.message());
+                    callBack.onError(""+ErrorStatus.API_ERROR, response.message());
                     return;
                 }
                 JSONObject result = response.body();
                 if (response.isSuccessful() && result.containsKey("file_key")) {
                     callBack.onSuccess(result.getString("file_key"));
                 } else {
-                    callBack.onError(result.getInteger("code"), result.getString("msg"));
+                    callBack.onError(result.getString("code"), result.getString("msg"));
                 }
             }
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                callBack.onError(ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
+                callBack.onError(""+ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
             }
         });
     }
@@ -121,7 +121,7 @@ public class RetrofitClient {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
-                    callBack.onError(ErrorStatus.API_ERROR, response.message());
+                    callBack.onError(""+ErrorStatus.API_ERROR, response.message());
                     return;
                 }
                 JSONObject result = response.body();
@@ -139,7 +139,7 @@ public class RetrofitClient {
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
                 isInit = false;
-                callBack.onError(ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
+                callBack.onError(""+ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
             }
         });
     }

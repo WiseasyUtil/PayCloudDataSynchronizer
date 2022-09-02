@@ -172,7 +172,7 @@ public class PdsClient {
      */
     private boolean checkInit(PdsResponseCallBack callBack) {
         if (!RetrofitClient.getIsInit()) {
-            callBack.onError(ErrorStatus.INIT_ERROR, "you must call init() first!!");
+            callBack.onError(""+ErrorStatus.INIT_ERROR, "you must call init() first!!");
             return false;
         }
         return true;

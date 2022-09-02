@@ -20,11 +20,6 @@ public class OtpCodePayResponse extends BaseResponse{
     String trans_end_time;
     String  exchange_rate;
 
-    @Override
-    public int getCode() {
-        return super.getCode();
-    }
-
     public double getDiscount_bmopc() {
         return discount_bmopc;
     }
@@ -86,11 +81,6 @@ public class OtpCodePayResponse extends BaseResponse{
 
     public String getTrans_end_time() {
         return trans_end_time;
-    }
-
-    @Override
-    public void setCode(int code) {
-        super.setCode(code);
     }
 
     @Override

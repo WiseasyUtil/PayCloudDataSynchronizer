@@ -18,6 +18,14 @@ public class CashierTransDetailRequest extends BaseRequest<TransactionDetailQuer
         return "cashier.trans.detail";
     }
 
+    public String getTrans_no() {
+        return trans_no;
+    }
+
+    public String getTerminal_sn() {
+        return terminal_sn;
+    }
+
     public void setTrans_no(String trans_no) {
         this.trans_no = trans_no;
     }

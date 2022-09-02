@@ -63,11 +63,6 @@ public class SendOtpCodeResponse extends BaseResponse{
         this.pay_channel_trans_no = pay_channel_trans_no;
     }
 
-    @Override
-    public void setCode(int code) {
-        super.setCode(code);
-    }
-
     public void setPaid_amount(double paid_amount) {
         this.paid_amount = paid_amount;
     }
@@ -109,11 +104,6 @@ public class SendOtpCodeResponse extends BaseResponse{
     @Override
     public String getMsg() {
         return super.getMsg();
-    }
-
-    @Override
-    public int getCode() {
-        return super.getCode();
     }
 
     public String getPay_user_account_id() {

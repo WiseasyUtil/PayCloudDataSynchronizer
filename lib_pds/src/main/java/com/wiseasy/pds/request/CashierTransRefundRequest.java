@@ -17,6 +17,30 @@ public class CashierTransRefundRequest extends  BaseRequest<TransactionRefundRes
     String merchant_order_no;
     String description;
 
+    public String getTerminal_sn() {
+        return terminal_sn;
+    }
+
+    public String getOrig_trans_no() {
+        return orig_trans_no;
+    }
+
+    public String getMerchant_order_no() {
+        return merchant_order_no;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getRefund_amount() {
+        return refund_amount;
+    }
+
+    public String getOrig_merchant_order_no() {
+        return orig_merchant_order_no;
+    }
+
     @Override
     public String getRequestMethod() {
         return "cashier.trans.refund";

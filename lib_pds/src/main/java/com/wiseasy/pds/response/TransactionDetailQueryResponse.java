@@ -151,11 +151,6 @@ public class TransactionDetailQueryResponse extends BaseResponse {
         return electron_sign_url;
     }
 
-    @Override
-    public int getCode() {
-        return super.getCode();
-    }
-
     public String getOrig_trans_no() {
         return orig_trans_no;
     }

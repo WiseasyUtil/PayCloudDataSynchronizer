@@ -17,7 +17,7 @@ public interface PdsResponseCallBack<T> {
      * @param errorCode error code
      * @param errorMsg  error msg
      */
-    void onError(int errorCode, String errorMsg);
+    void onError(String errorCode, String errorMsg);
 
     /**
      * 1. Successful callback

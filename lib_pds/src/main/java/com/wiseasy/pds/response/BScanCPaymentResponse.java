@@ -26,11 +26,6 @@ public class BScanCPaymentResponse extends BaseResponse {
         return trans_no;
     }
 
-    @Override
-    public int getCode() {
-        return super.getCode();
-    }
-
     public double getDiscount_bmopc() {
         return discount_bmopc;
     }
@@ -92,11 +87,6 @@ public class BScanCPaymentResponse extends BaseResponse {
 
     public void setTrans_no(String trans_no) {
         this.trans_no = trans_no;
-    }
-
-    @Override
-    public void setCode(int code) {
-        super.setCode(code);
     }
 
     @Override

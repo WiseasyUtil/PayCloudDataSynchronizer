@@ -9,7 +9,7 @@ public class BaseResponse {
     /**
      * Status code, 0 means the request is successful, others means failure
      */
-    private int code;
+    private String code;
 
     /**
      * Error message
@@ -32,14 +32,14 @@ public class BaseResponse {
      * @return
      */
     public boolean isSuccess() {
-        return 0 == code;
+        return "0".equals(code);
     }
 
     public void setSign(String sign) {
         this.sign = sign;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -55,7 +55,7 @@ public class BaseResponse {
         return sign;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
