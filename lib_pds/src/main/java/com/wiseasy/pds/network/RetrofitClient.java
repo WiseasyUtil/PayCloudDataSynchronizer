@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsResponseCallBack;
 import com.wiseasy.pds.response.BaseResponse;
+import com.wiseasy.pds.sign.SignHandler;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.ExceptionHandler;
 import com.wiseasy.pds.util.FileMd5;
@@ -89,16 +90,34 @@ public class RetrofitClient {
     }
 
     public static void sendFileUploadRequest(String institutionNo, File file, PdsResponseCallBack callBack) {
+        JSONObject jsonObject = new JSONObject();
+        String hash = FileMd5.getFileMD5(file);
+        jsonObject.put("institution_no", institutionNo);
+        jsonObject.put("file_data_hash", hash);
+        jsonObject.put("app_id", ParamsSignManager.appId);
+        jsonObject.put("format", "JSON");
+        jsonObject.put("charset", "UTF-8");
+        jsonObject.put("sign_type", "RSA2");
+        jsonObject.put("version", "1.0");
+        jsonObject.put("timestamp", "" + System.currentTimeMillis());
+        String signData = SignHandler.sign(jsonObject);
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("institution_no", institutionNo)
-                .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))
+                .addFormDataPart("app_id", ParamsSignManager.appId)
+                .addFormDataPart("format", "JSON")
+                .addFormDataPart("charset", "UTF-8")
+                .addFormDataPart("sign_type", "RSA2")
+                .addFormDataPart("version", "1.0")
+                .addFormDataPart("sign", signData)
+                .addFormDataPart("timestamp", "" + System.currentTimeMillis())
+                .addFormDataPart("file_data_hash", hash)
                 .addFormDataPart("file_data", file.getName(), createFileRequestBody(file))
                 .build();
         getApi().sendFileRequest(body).enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
-                    callBack.onError(""+ErrorStatus.API_ERROR, response.message());
+                    callBack.onError("" + ErrorStatus.API_ERROR, response.message());
                     return;
                 }
                 JSONObject result = response.body();
@@ -111,7 +130,7 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                callBack.onError(""+ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
+                callBack.onError("" + ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
             }
         });
     }
@@ -121,7 +140,7 @@ public class RetrofitClient {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
-                    callBack.onError(""+ErrorStatus.API_ERROR, response.message());
+                    callBack.onError("" + ErrorStatus.API_ERROR, response.message());
                     return;
                 }
                 JSONObject result = response.body();
@@ -138,8 +157,10 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                isInit = false;
-                callBack.onError(""+ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
+                if (params.getString("method").equals("cashier.basis.device.init")) {
+                    isInit = true;
+                }
+                callBack.onError("" + ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
             }
         });
     }

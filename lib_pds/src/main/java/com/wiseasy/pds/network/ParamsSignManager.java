@@ -23,12 +23,12 @@ public class ParamsSignManager {
     /**
      * app id
      */
-    private static String appId;
+    public static String appId;
 
     /**
      * device sn
      */
-    private static String deviceSn;
+    public static String deviceSn;
 
     public static void init(String sn, String id, String key, String pubKey) {
         deviceSn = sn;
