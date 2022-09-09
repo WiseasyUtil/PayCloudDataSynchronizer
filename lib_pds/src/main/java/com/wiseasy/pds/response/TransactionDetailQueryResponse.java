@@ -40,6 +40,194 @@ public class TransactionDetailQueryResponse extends BaseResponse {
     String trans_end_time;
     String update_time;
     String price_currency;
+    String store_no;
+    double receivable_amount;
+    double cashback_amount;
+    double order_amount;
+    double discount_bmoa;
+    double total_fee;
+    String app_id;
+    String pay_channel_id;
+    String institution_no;
+    double refundable_amount;
+    String trans_expire_time;
+    double total_discount;
+    String is_alipay_plus;
+    String timezone;
+    String description;
+    String sub_pay_method_icon_url;
+    double vat_rate;
+    String sub_pay_method_id;
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public void setStore_no(String store_no) {
+        this.store_no = store_no;
+    }
+
+    public void setInstitution_no(String institution_no) {
+        this.institution_no = institution_no;
+    }
+
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
+    }
+
+    @Override
+    public void setSign(String sign) {
+        super.setSign(sign);
+    }
+
+    @Override
+    public void setCode(String code) {
+        super.setCode(code);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCashback_amount(double cashback_amount) {
+        this.cashback_amount = cashback_amount;
+    }
+
+    @Override
+    public void setPsn(String psn) {
+        super.setPsn(psn);
+    }
+
+    public void setDiscount_bmoa(double discount_bmoa) {
+        this.discount_bmoa = discount_bmoa;
+    }
+
+    @Override
+    public void setMsg(String msg) {
+        super.setMsg(msg);
+    }
+
+    public void setReceivable_amount(double receivable_amount) {
+        this.receivable_amount = receivable_amount;
+    }
+
+    public void setIs_alipay_plus(String is_alipay_plus) {
+        this.is_alipay_plus = is_alipay_plus;
+    }
+
+    public void setPay_channel_id(String pay_channel_id) {
+        this.pay_channel_id = pay_channel_id;
+    }
+
+    public void setRefundable_amount(double refundable_amount) {
+        this.refundable_amount = refundable_amount;
+    }
+
+    public void setSub_pay_method_icon_url(String sub_pay_method_icon_url) {
+        this.sub_pay_method_icon_url = sub_pay_method_icon_url;
+    }
+
+    public void setSub_pay_method_id(String sub_pay_method_id) {
+        this.sub_pay_method_id = sub_pay_method_id;
+    }
+
+    public void setTotal_discount(double total_discount) {
+        this.total_discount = total_discount;
+    }
+
+    public void setTotal_fee(double total_fee) {
+        this.total_fee = total_fee;
+    }
+
+    public void setTrans_expire_time(String trans_expire_time) {
+        this.trans_expire_time = trans_expire_time;
+    }
+
+    public void setVat_rate(double vat_rate) {
+        this.vat_rate = vat_rate;
+    }
+
+    @Override
+    public String getCode() {
+        return super.getCode();
+    }
+
+    public String getStore_no() {
+        return store_no;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getInstitution_no() {
+        return institution_no;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public String getApp_id() {
+        return app_id;
+    }
+
+    public double getOrder_amount() {
+        return order_amount;
+    }
+
+    public double getCashback_amount() {
+        return cashback_amount;
+    }
+
+    public String getPay_channel_id() {
+        return pay_channel_id;
+    }
+
+    public double getDiscount_bmoa() {
+        return discount_bmoa;
+    }
+
+    public double getReceivable_amount() {
+        return receivable_amount;
+    }
+
+    public double getRefundable_amount() {
+        return refundable_amount;
+    }
+
+    public String getIs_alipay_plus() {
+        return is_alipay_plus;
+    }
+
+    public double getTotal_discount() {
+        return total_discount;
+
+    }
+
+    public double getTotal_fee() {
+        return total_fee;
+    }
+
+    public double getVat_rate() {
+        return vat_rate;
+    }
+
+    public String getSub_pay_method_icon_url() {
+        return sub_pay_method_icon_url;
+    }
+
+    public String getTrans_expire_time() {
+        return trans_expire_time;
+    }
+
+    public String getSub_pay_method_id() {
+        return sub_pay_method_id;
+    }
+
+    public void setOrder_amount(double order_amount) {
+        this.order_amount = order_amount;
+    }
 
     public void setPrice_currency(String price_currency) {
         this.price_currency = price_currency;

@@ -7,7 +7,6 @@ import com.wiseasy.pds.response.TransactionListQueryResponse;
  * User: pupan
  * Date: 2022/7/5
  * Time: 15:13
- * @author pupan
  */
 public class CashierTransListRequest extends BaseRequest<TransactionListQueryResponse> {
     String terminal_sn;
