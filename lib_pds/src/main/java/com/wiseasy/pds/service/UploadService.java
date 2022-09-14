@@ -11,9 +11,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
 import com.wiseasy.pds.db.TableRecord;
+import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitApi;
 import com.wiseasy.pds.network.RetrofitClient;
 import com.wiseasy.pds.response.BaseResponse;
+import com.wiseasy.pds.sign.SignHandler;
 import com.wiseasy.pds.util.FileMd5;
 
 import java.io.File;
@@ -99,8 +101,28 @@ public class UploadService extends IntentService {
         if (jsonObject.getString("method").equals("cashier.pay.bankcard.trans.complete")) {
             if (null != jsonObject.getString("electron_sign_url")) {
                 File file = new File(jsonObject.getString("electron_sign_url"));
+                JSONObject json = new JSONObject();
+                String hash = FileMd5.getFileMD5(file);
+                String time = "" + System.currentTimeMillis();
+                json.put("institution_no", jsonObject.getString("institution_no"));
+                json.put("file_data_hash", hash);
+                json.put("app_id", ParamsSignManager.appId);
+                json.put("format", "JSON");
+                json.put("charset", "UTF-8");
+                json.put("sign_type", "RSA2");
+                json.put("version", "1.0");
+                json.put("timestamp", time);
+                String signData = SignHandler.sign(json);
+                json.put("sign", signData);
                 RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("institution_no", jsonObject.getString("trans_no"))
+                        .addFormDataPart("institution_no", jsonObject.getString("institution_no"))
+                        .addFormDataPart("app_id", ParamsSignManager.appId)
+                        .addFormDataPart("format", "JSON")
+                        .addFormDataPart("charset", "UTF-8")
+                        .addFormDataPart("sign_type", "RSA2")
+                        .addFormDataPart("version", "1.0")
+                        .addFormDataPart("sign", signData)
+                        .addFormDataPart("timestamp", time)
                         .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))
                         .addFormDataPart("file_data", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                         .build();

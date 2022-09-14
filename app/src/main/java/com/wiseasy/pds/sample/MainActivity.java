@@ -21,6 +21,9 @@ import com.wiseasy.pds.PdsResponseCallBack;
 import com.wiseasy.pds.response.TransactionDetailQueryResponse;
 import com.wiseasy.pds.util.TradeConstants;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * @author pupan
  */
@@ -136,17 +139,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void upLoadFile(View view) {
-//        PdsClient.getBankCardTransactionService().uploadSettlement(null, "1111111", new PdsResponseCallBack<JSONObject>() {
-//            @Override
-//            public void onError(String errorMsg, String errorCode) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(ResponseData<String> responseData, JSONObject data) {
-//
-//            }
-//        });
+        File file = getCacheDir();
+        file = new File(file.getAbsolutePath()+"/1.txt");
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        mPdsClient.fileUpLoad("1111111", file, new PdsResponseCallBack<BaseResponse>() {
+            @Override
+            public void onError(String errorCode, String errorMsg) {
+                Toast.makeText(MainActivity.this, "关闭订单失败" + errorMsg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(BaseResponse data) {
+                Toast.makeText(MainActivity.this, "关闭订单成功", Toast.LENGTH_SHORT).show();
+                transNo = null;
+            }
+        });
     }
 
     public void deviceInit() {

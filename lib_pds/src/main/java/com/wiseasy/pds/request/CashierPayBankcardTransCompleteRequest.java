@@ -9,9 +9,10 @@ import org.json.JSONObject;
  * User: pupan
  * Date: 2022/7/7
  * Time: 16:56
+ *
  * @author pupan
  */
-public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResponse>{
+public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResponse> {
     String trans_no;
     String trans_end_time;
     String ref_no;
@@ -29,6 +30,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String card_issuers_no;
     String acquirer_no;
     String rate_change_type;
+    String institution_no;
     JSONObject bankcard_ext_params;
 
     @Override
@@ -42,6 +44,14 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
 
     public void setTrans_no(String transNo) {
         this.trans_no = transNo;
+    }
+
+    public void setInstitution_no(String institution_no) {
+        this.institution_no = institution_no;
+    }
+
+    public String getInstitution_no() {
+        return institution_no;
     }
 
     public String getAuth_no() {

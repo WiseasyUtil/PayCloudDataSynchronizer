@@ -92,6 +92,7 @@ public class RetrofitClient {
     public static void sendFileUploadRequest(String institutionNo, File file, PdsResponseCallBack callBack) {
         JSONObject jsonObject = new JSONObject();
         String hash = FileMd5.getFileMD5(file);
+        String time = "" + System.currentTimeMillis();
         jsonObject.put("institution_no", institutionNo);
         jsonObject.put("file_data_hash", hash);
         jsonObject.put("app_id", ParamsSignManager.appId);
@@ -99,9 +100,11 @@ public class RetrofitClient {
         jsonObject.put("charset", "UTF-8");
         jsonObject.put("sign_type", "RSA2");
         jsonObject.put("version", "1.0");
-        jsonObject.put("timestamp", "" + System.currentTimeMillis());
+        jsonObject.put("timestamp", time);
         String signData = SignHandler.sign(jsonObject);
+        jsonObject.put("sign", signData);
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addPart(createJsonRequestBody(jsonObject))
                 .addFormDataPart("institution_no", institutionNo)
                 .addFormDataPart("app_id", ParamsSignManager.appId)
                 .addFormDataPart("format", "JSON")
@@ -109,7 +112,7 @@ public class RetrofitClient {
                 .addFormDataPart("sign_type", "RSA2")
                 .addFormDataPart("version", "1.0")
                 .addFormDataPart("sign", signData)
-                .addFormDataPart("timestamp", "" + System.currentTimeMillis())
+                .addFormDataPart("timestamp", time)
                 .addFormDataPart("file_data_hash", hash)
                 .addFormDataPart("file_data", file.getName(), createFileRequestBody(file))
                 .build();
