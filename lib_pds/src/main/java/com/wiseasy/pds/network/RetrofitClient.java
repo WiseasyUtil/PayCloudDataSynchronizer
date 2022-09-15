@@ -177,7 +177,7 @@ public class RetrofitClient {
     }
 
     public static RequestBody createFileRequestBody(File file) {
-        return RequestBody.create(MediaType.parse("image/*"), file);
+        return RequestBody.create(MediaType.parse("multipart/form-data"), file);
     }
 
     /**

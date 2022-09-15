@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void upLoadFile(View view) {
         File file = getCacheDir();
-        file = new File(file.getAbsolutePath()+"/1.txt");
+        file = new File(file.getAbsolutePath()+"/123");
         if(!file.exists()) {
             try {
                 file.createNewFile();
@@ -148,14 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        mPdsClient.fileUpLoad("1111111", file, new PdsResponseCallBack<BaseResponse>() {
+        mPdsClient.fileUpLoad("100004484", file, new PdsResponseCallBack<String>() {
             @Override
             public void onError(String errorCode, String errorMsg) {
                 Toast.makeText(MainActivity.this, "关闭订单失败" + errorMsg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onSuccess(BaseResponse data) {
+            public void onSuccess(String data) {
                 Toast.makeText(MainActivity.this, "关闭订单成功", Toast.LENGTH_SHORT).show();
                 transNo = null;
             }

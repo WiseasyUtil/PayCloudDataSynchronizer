@@ -150,6 +150,14 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
         this.electron_sign_url = electron_sign_url;
     }
 
+    public String getBatch_no() {
+        return batch_no;
+    }
+
+    public JSONObject getBankcard_ext_params() {
+        return bankcard_ext_params;
+    }
+    
     public void setPay_user_account_encrypt(String pay_user_account_encrypt) {
         this.pay_user_account_encrypt = pay_user_account_encrypt;
     }
