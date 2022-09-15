@@ -58,6 +58,24 @@ public class TransactionDetailQueryResponse extends BaseResponse {
     String sub_pay_method_icon_url;
     double vat_rate;
     String sub_pay_method_id;
+    String related_trans_no;
+    String related_trans_list;
+
+    public String getRelated_trans_list() {
+        return related_trans_list;
+    }
+
+    public String getRelated_trans_no() {
+        return related_trans_no;
+    }
+
+    public void setRelated_trans_list(String related_trans_list) {
+        this.related_trans_list = related_trans_list;
+    }
+
+    public void setRelated_trans_no(String related_trans_no) {
+        this.related_trans_no = related_trans_no;
+    }
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
