@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsClient;
 import com.wiseasy.pds.PdsException;
 import com.wiseasy.pds.request.CashierPayBankcardTransCloseRequest;
@@ -99,12 +100,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void transClose(View view) {
-        if (null == transNo) {
-            Toast.makeText(MainActivity.this, "关闭订单失败，订单号为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        CashierPayBankcardTransCloseRequest request = new CashierPayBankcardTransCloseRequest();
-        request.setTrans_no(transNo);
+//        if (null == transNo) {
+//            Toast.makeText(MainActivity.this, "关闭订单失败，订单号为空", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+        CashierPayBankcardTransCompleteRequest request = new CashierPayBankcardTransCompleteRequest();
+        request.setTrans_no("11111111");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("aaaa","1111");
+        request.setBankcard_ext_params(jsonObject.toString());
         mPdsClient.execute(request, new PdsResponseCallBack<BaseResponse>() {
             @Override
             public void onError(String errorCode, String errorMsg) {

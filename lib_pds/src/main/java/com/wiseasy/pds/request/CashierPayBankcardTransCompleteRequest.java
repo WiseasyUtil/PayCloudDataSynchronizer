@@ -31,7 +31,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String acquirer_no;
     String rate_change_type;
     String institution_no;
-    JSONObject bankcard_ext_params;
+    String bankcard_ext_params;
 
     @Override
     public String getRequestMethod() {
@@ -142,7 +142,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
         this.card_type = card_type;
     }
 
-    public void setBankcard_ext_params(JSONObject bankcard_ext_params) {
+    public void setBankcard_ext_params(String bankcard_ext_params) {
         this.bankcard_ext_params = bankcard_ext_params;
     }
 
@@ -154,7 +154,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
         return batch_no;
     }
 
-    public JSONObject getBankcard_ext_params() {
+    public String getBankcard_ext_params() {
         return bankcard_ext_params;
     }
     
