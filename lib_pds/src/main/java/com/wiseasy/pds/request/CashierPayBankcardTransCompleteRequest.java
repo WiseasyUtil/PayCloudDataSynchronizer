@@ -21,6 +21,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String batch_no;
     String auth_no;
     String sys_no;
+    String app_id;
     String electron_sign_url;
     String pay_user_account_id;
     String pay_user_account_encrypt;
@@ -33,6 +34,14 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String rate_change_type;
     String institution_no;
     String bankcard_ext_params;
+
+    public String getApp_id() {
+        return app_id;
+    }
+
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
+    }
 
     public void setMidapp_id(String midapp_id) {
         this.midapp_id = midapp_id;
