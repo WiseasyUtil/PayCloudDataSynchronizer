@@ -25,6 +25,7 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
     String midapp_id;
     String merchant_order_no;
     String call_midapp_mode;
+    String app_id;
     String os_type;
     String longitude;
     String latitude;
@@ -48,6 +49,14 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
     String acquirer_no;
     String rate_change_type;
     JSONObject bankcard_ext_params;
+
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
+    }
+
+    public String getApp_id() {
+        return app_id;
+    }
 
     @Override
     public String getRequestMethod() {
