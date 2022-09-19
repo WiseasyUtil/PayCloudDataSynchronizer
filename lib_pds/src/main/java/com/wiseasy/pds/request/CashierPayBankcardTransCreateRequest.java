@@ -21,8 +21,14 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
     String description;
     String pay_method_id;
     String orig_trans_no;
+    String orig_merchant_order_no;
+    String midapp_id;
+    String merchant_order_no;
+    String call_midapp_mode;
+    String os_type;
     String longitude;
     String latitude;
+    String timestamp;
     String term_ip;
     JSONObject env_params;
     String trans_end_time;
@@ -46,6 +52,59 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
     @Override
     public String getRequestMethod() {
         return "cashier.pay.bankcard.trans.create";
+    }
+
+    public void setOrig_merchant_order_no(String orig_merchant_order_no) {
+        this.orig_merchant_order_no = orig_merchant_order_no;
+
+    }
+
+    public void setMerchant_order_no(String merchant_order_no) {
+        this.merchant_order_no = merchant_order_no;
+    }
+
+    public void setCall_midapp_mode(String call_midapp_mode) {
+        this.call_midapp_mode = call_midapp_mode;
+    }
+
+    public void setMidapp_id(String midapp_id) {
+        this.midapp_id = midapp_id;
+    }
+
+    public void setOs_type(String os_type) {
+        this.os_type = os_type;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getOrig_merchant_order_no() {
+        return orig_merchant_order_no;
+    }
+
+    public String getMerchant_order_no() {
+        return merchant_order_no;
+    }
+
+    public String getCall_midapp_mode() {
+        return call_midapp_mode;
+    }
+
+    public JSONObject getBankcard_ext_params() {
+        return bankcard_ext_params;
+    }
+
+    public String getMidapp_id() {
+        return midapp_id;
+    }
+
+    public String getOs_type() {
+        return os_type;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public String getTrans_no() {

@@ -16,6 +16,7 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String trans_no;
     String trans_end_time;
     String ref_no;
+    String midapp_id;
     String voucher_no;
     String batch_no;
     String auth_no;
@@ -32,6 +33,14 @@ public class CashierPayBankcardTransCompleteRequest extends BaseRequest<BaseResp
     String rate_change_type;
     String institution_no;
     String bankcard_ext_params;
+
+    public void setMidapp_id(String midapp_id) {
+        this.midapp_id = midapp_id;
+    }
+
+    public String getMidapp_id() {
+        return midapp_id;
+    }
 
     @Override
     public String getRequestMethod() {
