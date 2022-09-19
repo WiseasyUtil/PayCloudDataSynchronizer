@@ -14,8 +14,44 @@ public class CashierTransListRequest extends BaseRequest<TransactionListQueryRes
     int trans_type;
     int page_num;
     int page_size;
+    String app_id;
+    String store_no;
+    String trans_end_time_min;
+    String trans_end_time_max;
     String trans_keywords;
     String pay_method_id;
+
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
+    }
+
+    public void setStore_no(String store_no) {
+        this.store_no = store_no;
+    }
+
+    public void setTrans_end_time_min(String trans_end_time_min) {
+        this.trans_end_time_min = trans_end_time_min;
+    }
+
+    public void setTrans_end_time_max(String trans_end_time_max) {
+        this.trans_end_time_max = trans_end_time_max;
+    }
+
+    public String getTrans_end_time_min() {
+        return trans_end_time_min;
+    }
+
+    public String getTrans_end_time_max() {
+        return trans_end_time_max;
+    }
+
+    public String getApp_id() {
+        return app_id;
+    }
+
+    public String getStore_no() {
+        return store_no;
+    }
 
     @Override
     public String getRequestMethod() {

@@ -60,6 +60,87 @@ public class TransactionDetailQueryResponse extends BaseResponse {
     String sub_pay_method_id;
     String related_trans_no;
     String related_trans_list;
+    String merchant_order_no;
+    String merchant_name;
+    String merchant_logo;
+    String store_name;
+    String store_country;
+    String store_city;
+    String store_address_detail;
+    String terminal_sn;
+    String pay_user_account_name;
+
+    public void setStore_name(String store_name) {
+        this.store_name = store_name;
+    }
+
+    public void setMerchant_name(String merchant_name) {
+        this.merchant_name = merchant_name;
+    }
+
+    public void setTerminal_sn(String terminal_sn) {
+        this.terminal_sn = terminal_sn;
+    }
+
+    public void setMerchant_logo(String merchant_logo) {
+        this.merchant_logo = merchant_logo;
+    }
+
+    public void setPay_user_account_name(String pay_user_account_name) {
+        this.pay_user_account_name = pay_user_account_name;
+    }
+
+    public void setStore_address_detail(String store_address_detail) {
+        this.store_address_detail = store_address_detail;
+    }
+
+    public void setStore_city(String store_city) {
+        this.store_city = store_city;
+    }
+
+    public void setStore_country(String store_country) {
+        this.store_country = store_country;
+    }
+
+    public String getTerminal_sn() {
+        return terminal_sn;
+    }
+
+    public String getStore_name() {
+        return store_name;
+    }
+
+    public String getMerchant_name() {
+        return merchant_name;
+    }
+
+    public String getMerchant_logo() {
+        return merchant_logo;
+    }
+
+    public String getPay_user_account_name() {
+        return pay_user_account_name;
+    }
+
+    public String getStore_address_detail() {
+        return store_address_detail;
+    }
+
+    public String getStore_city() {
+        return store_city;
+    }
+
+    public String getStore_country() {
+        return store_country;
+    }
+
+    public String getMerchant_order_no() {
+        return merchant_order_no;
+    }
+
+    public void setMerchant_order_no(String merchant_order_no) {
+        this.merchant_order_no = merchant_order_no;
+    }
 
     public String getRelated_trans_list() {
         return related_trans_list;
