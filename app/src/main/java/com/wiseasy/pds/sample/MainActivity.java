@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         CashierPayBankcardTransCreateRequest request = new CashierPayBankcardTransCreateRequest();
         request.setPrice_currency("MMK");
         request.setOrder_amount(1.0);
+        request.setApp_id("111111111111111111");
+        request.setMidapp_id("111111111111111111");
         request.setTrans_type(TradeConstants.TRADE_TYPE_CONSUME);
         request.setPay_method_id(TradeConstants.PAY_METHOD_VISA);
         mPdsClient.execute(request, new PdsResponseCallBack<CashierPayBankCardTransCreateResponse>() {

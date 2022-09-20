@@ -52,7 +52,9 @@ public class ParamsSignManager {
             map = new HashMap<>();
         }
         map.put("terminal_sn", deviceSn);
-        map.put("app_id", appId);
+        if(!map.containsKey("app_id")) {
+            map.put("app_id", appId);
+        }
         map.put("format", "JSON");
         map.put("charset", "UTF-8");
         map.put("sign_type", "RSA2");
