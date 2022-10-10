@@ -65,7 +65,6 @@ public class CashierPayBankcardTransCreateRequest extends BaseRequest<CashierPay
 
     public void setOrig_merchant_order_no(String orig_merchant_order_no) {
         this.orig_merchant_order_no = orig_merchant_order_no;
-
     }
 
     public void setMerchant_order_no(String merchant_order_no) {

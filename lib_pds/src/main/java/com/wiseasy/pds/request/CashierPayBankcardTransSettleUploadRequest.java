@@ -12,7 +12,7 @@ import com.wiseasy.pds.response.BaseResponse;
 public class CashierPayBankcardTransSettleUploadRequest extends BaseRequest<BaseResponse> {
     String terminal_sn;
     String settle_file_key;
-
+    
     @Override
     public String getRequestMethod() {
         return "cashier.pay.bankcard.trans.settle.upload";
