@@ -20,6 +20,10 @@ public class CashierPayBankcardTransLogUploadRequest extends BaseRequest<BaseRes
     String log_pack;
     String net_link_type;
 
+    public String getUpload_time() {
+        return upload_time;
+    }
+
     @Override
     public String getRequestMethod() {
         return "cashier.pay.bankcard.trans.log.upload";
