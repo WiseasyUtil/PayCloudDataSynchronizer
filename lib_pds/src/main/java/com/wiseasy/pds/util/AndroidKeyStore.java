@@ -7,12 +7,15 @@ import android.security.keystore.KeyProperties;
 import android.security.keystore.KeyProtection;
 
 import com.wiseasy.pds.sign.Base64;
+import com.wiseasy.pds.sign.Sha256;
 
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
+import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -31,24 +34,35 @@ public class AndroidKeyStore {
     public static String MAC_ALIAS = "mac_alias";
     public static String DATA_ALIAS = "data_alias";
     private static String keyStoreType = "AndroidKeyStore";
+    private static final String ALG = "AES/ECB/PKCS5Padding";
     public static String mac_key = "";
     public static String data_key = "";
     private static SharedPreferences sharedPreferences;
+    private static final String ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm";
     public static String BASE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2m4nkQKyQAxJc8VVsz/L6qVbtDWRTBolUK8Dwhi9wH6aygA6363PVNEPM8eRI5W19ssCyfdtNFy6DRAureoYV053ETPUefEA5bHDOQnjbb9PuNEfT651v8cqwEaTptaxj2zujsWI8Ad3R50EyQHsskQWms/gv2aB36XUM4vyOIk4P1f3dxtqigH0YROEYiuwFFqsyJuNSjJzNbCmfgqlQv/+pE/pOV9MIQe0CAdD26JF10QpSssEwKgvKvnXPUynVu09cjSEipev5cLJSApKSDZxrRjSFBXrh6nzg8JK05ehkI8wdsryRUneh0PGN0PgYLP/wjKiqlgTJaItxnb/JQIDAQAB";
 
     public static void init(Context context) throws Exception {
         sharedPreferences = context.getSharedPreferences(keyStoreType, 0);
-        if (!hasKey(MAC_ALIAS) || "".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
+        if ("".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
             createKeyStoreEntry(MAC_ALIAS);
         } else {
             mac_key = sharedPreferences.getString(MAC_ALIAS, "");
         }
 
-        if (!hasKey(DATA_ALIAS) || "".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
+        if ("".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
             createKeyStoreEntry(DATA_ALIAS);
         } else {
             data_key = sharedPreferences.getString(DATA_ALIAS, "");
         }
+    }
+
+    private static String getRandomString(final int sizeOfRandomString) {
+        final Random random = new Random();
+        final StringBuilder sb = new StringBuilder(sizeOfRandomString);
+        for (int i = 0; i < sizeOfRandomString; i++) {
+            sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
+        }
+        return sb.toString();
     }
 
     private static boolean hasKey(String alias) throws Exception {
@@ -59,49 +73,76 @@ public class AndroidKeyStore {
 
 
     private static void createKeyStoreEntry(String alias) {
+        String key = getRandomString(32);
+        if (alias.equals(MAC_ALIAS)) {
+            mac_key = key;
+        } else {
+            data_key = key;
+        }
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(alias, key);
+        edit.commit();
+    }
+
+    public static String doMacEncrypt(String planText, String alias) {
+        String mainKey = sharedPreferences.getString(alias, "");
+        if ("".equals(mainKey)) {
+            return null;
+        }
+        String text = planText + mainKey;
+        return Sha256.getSHA256(text);
+    }
+
+    /**
+     * AES加密
+     *
+     * @param planText 待加密内容
+     * @return
+     */
+    public static byte[] doEncrypt(String planText, String alias) {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES);
-            keyGenerator.init(256);
-            SecretKey secretKey = keyGenerator.generateKey();
-            if (alias.equals(MAC_ALIAS)) {
-                mac_key = new String(Base64.encode(secretKey.getEncoded()));
-            } else {
-                data_key = new String(Base64.encode(secretKey.getEncoded()));
+            String mainKey = sharedPreferences.getString(alias, "");
+            if ("".equals(mainKey)) {
+                return null;
             }
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.putString(alias, new String(Base64.encode(secretKey.getEncoded())));
-            edit.commit();
-            SecretKeySpec signingKey = new SecretKeySpec(secretKey.getEncoded(), secretKey.getAlgorithm());
-            KeyStore ks = KeyStore.getInstance(keyStoreType);
-            ks.load(null);
-            KeyStore.SecretKeyEntry entry = new KeyStore.SecretKeyEntry(signingKey);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ks.setEntry(alias, entry, new KeyProtection.Builder(KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build());
-            }
-        } catch (NoSuchAlgorithmException | KeyStoreException e) {
-            throw new AssertionError(e);
-        } catch (CertificateException e) {
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");
+            kgen.init(256, new SecureRandom(Base64.decode(mainKey)));
+            SecretKey secretKey = kgen.generateKey();
+            byte[] enCodeFormat = secretKey.getEncoded();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
+            byte[] byteContent = planText.getBytes("utf-8");
+            cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
+            byte[] result = cipher.doFinal(byteContent);
+            return result; // 加密
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
     }
 
-    public static String doEncrypt(byte[] raw, byte[] clear) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] encrypted = cipher.doFinal(clear);
-        return new String(Base64.encode(encrypted));
-    }
-
-    private static String doDecrypt(byte[] raw, byte[] encrypted) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return new String(Base64.encode(decrypted));
+    /**
+     * 解密
+     *
+     * @param content  待解密内容
+     * @param password 解密密钥
+     * @return
+     */
+    public static byte[] decrypt(byte[] content, String password) {
+        try {
+            KeyGenerator kgen = KeyGenerator.getInstance(ALG);
+            kgen.init(128, new SecureRandom(password.getBytes("utf-8")));
+            SecretKey secretKey = kgen.generateKey();
+            byte[] enCodeFormat = secretKey.getEncoded();
+            SecretKeySpec key = new SecretKeySpec(enCodeFormat, ALG);
+            Cipher cipher = Cipher.getInstance(ALG);// 创建密码器
+            cipher.init(Cipher.DECRYPT_MODE, key);// 初始化
+            byte[] result = cipher.doFinal(content);
+            return result; // 加密
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

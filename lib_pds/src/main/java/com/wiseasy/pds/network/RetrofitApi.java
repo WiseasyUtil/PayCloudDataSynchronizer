@@ -22,7 +22,7 @@ public interface RetrofitApi {
      * @return
      */
     @POST("api/cashier/entry")
-    Call<JSONObject> sendRequest(@Header("auth_token") String contentRange, @Body RequestBody body);
+    Call<JSONObject> sendRequest(@Header("x-auth-token") String contentRange, @Body RequestBody body);
 
     /**
      * 发送请求

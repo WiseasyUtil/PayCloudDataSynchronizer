@@ -21,7 +21,7 @@ public class DefaultParamSign implements PdsBaseSign {
 
     @Override
     public String sign(String params) {
-        return AndroidKeyStore.encrypt(Base64.decode(params), AndroidKeyStore.MAC_ALIAS);
+        return AndroidKeyStore.doMacEncrypt(params, AndroidKeyStore.MAC_ALIAS);
     }
 
     @Override

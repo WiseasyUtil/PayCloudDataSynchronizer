@@ -111,7 +111,7 @@ public class RetrofitClient {
                 .addFormDataPart("format", "JSON")
                 .addFormDataPart("charset", "UTF-8")
                 .addFormDataPart("sign_type", "RSA2")
-                .addFormDataPart("version", "1.0")
+                .addFormDataPart("version", "2.0")
                 .addFormDataPart("sign", signData)
                 .addFormDataPart("timestamp", time)
                 .addFormDataPart("file_data_hash", hash)
@@ -150,7 +150,7 @@ public class RetrofitClient {
                 JSONObject result = response.body();
                 BaseResponse baseResponse = (BaseResponse) JSON.toJavaObject(result, dataClass);
                 if (baseResponse.isSuccess()) {
-                    if (params.getString("method").equals("cashier.basis.device.init")) {
+                    if (params.getString("method").equals("cashier.signin")) {
                         isInit = true;
                     }
                     callBack.onSuccess(baseResponse);
@@ -161,7 +161,7 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                if (params.getString("method").equals("cashier.basis.device.init")) {
+                if (params.getString("method").equals("cashier.signin")) {
                     isInit = true;
                 }
                 callBack.onError("" + ExceptionHandler.getErrorCode(), ExceptionHandler.handleException(t));
@@ -227,9 +227,6 @@ public class RetrofitClient {
             Log.d(TAG, String.format("收到响应\n%s %s\n请求url：%s\n请求body：%s\n响应body：%s",
                     response.code(), response.message(), response.request().url(), reqBody, respBody));
             JSONObject data = JSONObject.parseObject(respBody);
-            if (data.containsKey("auth_token")) {
-                token = data.getString("auth_token");
-            }
             boolean sign = true;
             if (!sign) {
                 JSONObject errJson = new JSONObject();
@@ -245,6 +242,9 @@ public class RetrofitClient {
                     result.putAll(JSONObject.parseObject(dataStr));
                 }
                 result.remove("data");
+                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
+                    token = result.getString("auth_token");
+                }
                 ResponseBody myBody = ResponseBody.create(MediaType.get("text/plain"), result.toJSONString());
                 return response.newBuilder().body(myBody).build();
             }
