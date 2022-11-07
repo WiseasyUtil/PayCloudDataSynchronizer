@@ -12,10 +12,6 @@ import com.wiseasy.pds.util.AndroidKeyStore;
  * @author pupan
  */
 public class DefaultParamSign implements PdsBaseSign {
-    private String INPUT_CHARSET = "UTF-8";
-    private String privateKey;
-    private String publicKey;
-
     public DefaultParamSign() {
     }
 

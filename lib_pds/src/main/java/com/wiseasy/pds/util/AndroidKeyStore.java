@@ -41,7 +41,7 @@ public class AndroidKeyStore {
     private static final String ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm";
     public static String BASE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2m4nkQKyQAxJc8VVsz/L6qVbtDWRTBolUK8Dwhi9wH6aygA6363PVNEPM8eRI5W19ssCyfdtNFy6DRAureoYV053ETPUefEA5bHDOQnjbb9PuNEfT651v8cqwEaTptaxj2zujsWI8Ad3R50EyQHsskQWms/gv2aB36XUM4vyOIk4P1f3dxtqigH0YROEYiuwFFqsyJuNSjJzNbCmfgqlQv/+pE/pOV9MIQe0CAdD26JF10QpSssEwKgvKvnXPUynVu09cjSEipev5cLJSApKSDZxrRjSFBXrh6nzg8JK05ehkI8wdsryRUneh0PGN0PgYLP/wjKiqlgTJaItxnb/JQIDAQAB";
 
-    public static void init(Context context) throws Exception {
+    public static void init(Context context) {
         sharedPreferences = context.getSharedPreferences(keyStoreType, 0);
         if ("".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
             createKeyStoreEntry(MAC_ALIAS);
@@ -49,7 +49,7 @@ public class AndroidKeyStore {
             mac_key = sharedPreferences.getString(MAC_ALIAS, "");
         }
 
-        if ("".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
+        if ("".equals(sharedPreferences.getString(DATA_ALIAS, ""))) {
             createKeyStoreEntry(DATA_ALIAS);
         } else {
             data_key = sharedPreferences.getString(DATA_ALIAS, "");
