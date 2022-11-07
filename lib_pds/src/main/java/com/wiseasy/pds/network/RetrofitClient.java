@@ -242,9 +242,9 @@ public class RetrofitClient {
                     result.putAll(JSONObject.parseObject(dataStr));
                 }
                 result.remove("data");
-//                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
-//                    token = result.getString("auth_token");
-//                }
+                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
+                    token = result.getString("auth_token");
+                }
                 ResponseBody myBody = ResponseBody.create(MediaType.get("text/plain"), result.toJSONString());
                 return response.newBuilder().body(myBody).build();
             }
