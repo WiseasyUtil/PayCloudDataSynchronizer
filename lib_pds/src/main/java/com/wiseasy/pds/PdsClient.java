@@ -86,6 +86,15 @@ public class PdsClient {
         });
     }
 
+    /**
+     * 敏感数据加密
+     * @param data
+     * @return
+     */
+    public String doDataEncrypt(String data) {
+        return AndroidKeyStore.doEncrypt(data);
+    }
+
 
     /**
      * dataBase init

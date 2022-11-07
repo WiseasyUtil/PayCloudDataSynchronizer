@@ -2,19 +2,10 @@ package com.wiseasy.pds.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.security.keystore.KeyProperties;
-import android.security.keystore.KeyProtection;
 
-import com.wiseasy.pds.sign.Base64;
 import com.wiseasy.pds.sign.Sha256;
 
-import java.io.IOException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.util.Random;
 
 import javax.crypto.Cipher;
@@ -64,20 +55,13 @@ public class AndroidKeyStore {
     }
 
     private static String getRandomString(final int sizeOfRandomString) {
-        final Random random = new Random();
+        final SecureRandom random = new SecureRandom();
         final StringBuilder sb = new StringBuilder(sizeOfRandomString);
         for (int i = 0; i < sizeOfRandomString; i++) {
             sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
         }
         return sb.toString();
     }
-
-    private static boolean hasKey(String alias) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-        keyStore.load(null);
-        return keyStore.containsAlias(alias);
-    }
-
 
     private static void createKeyStoreEntry(String alias) {
         String key = getRandomString(32);
@@ -106,94 +90,16 @@ public class AndroidKeyStore {
      * @param planText 待加密内容
      * @return
      */
-    public static byte[] doEncrypt(String planText, String alias) {
+    public static String doEncrypt(String planText) {
         try {
-            String mainKey = sharedPreferences.getString(alias, "");
-            if ("".equals(mainKey)) {
+            String dataKey = sharedPreferences.getString(data_key, "");
+            if ("".equals(dataKey)) {
                 return null;
             }
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            kgen.init(256, new SecureRandom(Base64.decode(mainKey)));
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            byte[] byteContent = planText.getBytes("utf-8");
-            cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(byteContent);
-            return result; // 加密
+            return AESEncrypt.encrypt(planText, dataKey);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    /**
-     * 解密
-     *
-     * @param content  待解密内容
-     * @param password 解密密钥
-     * @return
-     */
-    public static byte[] decrypt(byte[] content, String password) {
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance(ALG);
-            kgen.init(128, new SecureRandom(password.getBytes("utf-8")));
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, ALG);
-            Cipher cipher = Cipher.getInstance(ALG);// 创建密码器
-            cipher.init(Cipher.DECRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(content);
-            return result; // 加密
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 加密
-     *
-     * @param data  要加密的数据
-     * @param alias KeyStore中的别名
-     */
-    public static String encrypt(byte[] data, String alias) {
-        try {
-            //取出密钥
-            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-            keyStore.load(null);
-            KeyStore.SecretKeyEntry entry = (KeyStore.SecretKeyEntry) keyStore.getEntry(alias, null);
-            SecretKey secretKey = entry.getSecretKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return new String(Base64.encode(cipher.doFinal(data)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 解密
-     *
-     * @param data  要解密的数据
-     * @param alias KeyStore中的别名
-     */
-    public static String decryptAES(byte[] data, String alias) {
-        try {
-            //取出密钥
-            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-            keyStore.load(null);
-            KeyStore.SecretKeyEntry entry = (KeyStore.SecretKeyEntry) keyStore.getEntry(alias, null);
-            SecretKey secretKey = entry.getSecretKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(Base64.encode(cipher.doFinal(data)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }
