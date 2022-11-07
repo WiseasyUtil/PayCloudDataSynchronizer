@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsResponseCallBack;
 import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.sign.SignHandler;
+import com.wiseasy.pds.util.AndroidKeyStore;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.ExceptionHandler;
 import com.wiseasy.pds.util.FileMd5;
@@ -136,7 +137,7 @@ public class RetrofitClient {
     }
 
     public static void sendCommonRequest(JSONObject params, Class dataClass, PdsResponseCallBack callBack) {
-        getApi().sendRequest(token,RetrofitClient.createJsonRequestBody(params)).enqueue(new Callback<JSONObject>() {
+        getApi().sendRequest(token, RetrofitClient.createJsonRequestBody(params)).enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
@@ -151,6 +152,9 @@ public class RetrofitClient {
                     }
                     callBack.onSuccess(baseResponse);
                 } else {
+                    if (baseResponse.getCode().equals("SYS001")) {
+                        AndroidKeyStore.removeAllKey();
+                    }
                     callBack.onError(baseResponse.getCode(), baseResponse.getMsg());
                 }
             }
@@ -238,9 +242,9 @@ public class RetrofitClient {
                     result.putAll(JSONObject.parseObject(dataStr));
                 }
                 result.remove("data");
-                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
-                    token = result.getString("auth_token");
-                }
+//                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
+//                    token = result.getString("auth_token");
+//                }
                 ResponseBody myBody = ResponseBody.create(MediaType.get("text/plain"), result.toJSONString());
                 return response.newBuilder().body(myBody).build();
             }
