@@ -97,8 +97,6 @@ public class RetrofitClient {
         jsonObject.put("institution_no", institutionNo);
         jsonObject.put("file_data_hash", hash);
         jsonObject.put("app_id", ParamsSignManager.appId);
-        jsonObject.put("format", "JSON");
-        jsonObject.put("charset", "UTF-8");
         jsonObject.put("sign_type", "RSA2");
         jsonObject.put("version", "1.0");
         jsonObject.put("timestamp", time);
@@ -108,8 +106,6 @@ public class RetrofitClient {
                 .addPart(createJsonRequestBody(jsonObject))
                 .addFormDataPart("institution_no", institutionNo)
                 .addFormDataPart("app_id", ParamsSignManager.appId)
-                .addFormDataPart("format", "JSON")
-                .addFormDataPart("charset", "UTF-8")
                 .addFormDataPart("sign_type", "RSA2")
                 .addFormDataPart("version", "2.0")
                 .addFormDataPart("sign", signData)

@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deviceInit() {
-        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzac09fb2b0ad16b28", true,
+        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzac09fb2b0ad16b28",
                 new PdsResponseCallBack<DeviceInitResponse>() {
                     @Override
                     public void onError(String errorCode, String errorMsg) {

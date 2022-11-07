@@ -1,8 +1,6 @@
 
 package com.wiseasy.pds.sign;
 
-import com.wiseasy.pds.sign.Base64;
-
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;

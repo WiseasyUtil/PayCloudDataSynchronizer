@@ -43,7 +43,7 @@ public class PdsClient {
      */
     private SQLiteDatabase db;
 
-    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
+    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, PdsResponseCallBack callBack) {
         //network init
         RetrofitClient.init(url);
         //database init
@@ -59,8 +59,6 @@ public class PdsClient {
         map.put("app_id", appId);
         map.put("app_version", appVersion);
         map.put("version", "2.0");
-        map.put("format", "JSON");
-        map.put("charset", "UTF-8");
         map.put("terminal_sn", deviceSn);
         map.put("timestamp", "" + System.currentTimeMillis());
         RetrofitClient.sendCommonRequest(new JSONObject(map), InitResponse.class, new PdsResponseCallBack<InitResponse>() {
@@ -84,8 +82,6 @@ public class PdsClient {
                     map.put("data_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(dataKey.getBytes(), rsaKey)));
                     map.put("app_id", appId);
                     map.put("version", "2.0");
-                    map.put("format", "JSON");
-                    map.put("charset", "UTF-8");
                     map.put("terminal_sn", deviceSn);
                     map.put("timestamp", "" + System.currentTimeMillis());
                     RetrofitClient.sendCommonRequest(new JSONObject(map), DeviceInitResponse.class, callBack);
