@@ -26,5 +26,4 @@ public class PdsException extends Exception {
     public String getErrMsg() {
         return this.errMsg;
     }
-
 }

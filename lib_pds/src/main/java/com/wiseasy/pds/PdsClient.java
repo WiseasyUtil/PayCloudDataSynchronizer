@@ -9,14 +9,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
 import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.request.BaseRequest;
-import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.response.DeviceInitResponse;
 import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitClient;
 import com.wiseasy.pds.response.InitResponse;
 import com.wiseasy.pds.service.UploadService;
 import com.wiseasy.pds.sign.Base64;
-import com.wiseasy.pds.sign.RSA;
 import com.wiseasy.pds.util.AndroidKeyStore;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.RSA2Coder;
@@ -24,8 +22,6 @@ import com.wiseasy.pds.util.RSA2Coder;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.crypto.SecretKey;
 
 /**
  * PayCloud Data Service SDK
@@ -36,8 +32,6 @@ import javax.crypto.SecretKey;
  * @author pupan
  */
 public class PdsClient {
-    private String INPUT_CHARSET = "UTF-8";
-
     /**
      * database
      */
