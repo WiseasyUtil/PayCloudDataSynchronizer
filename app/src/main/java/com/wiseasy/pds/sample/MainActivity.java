@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void transCreateOrder(View view) {
+        String result = mPdsClient.doDataEncrypt("aaaaaaaaaaaaaaaa");
+        String result1 = mPdsClient.doDataDecrypt(result);
         CashierPayBankcardTransCreateRequest request = new CashierPayBankcardTransCreateRequest();
         request.setPrice_currency("MMK");
         request.setOrder_amount(1.0);

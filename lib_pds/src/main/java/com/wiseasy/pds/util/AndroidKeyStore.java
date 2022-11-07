@@ -92,7 +92,7 @@ public class AndroidKeyStore {
      */
     public static String doEncrypt(String planText) {
         try {
-            String dataKey = sharedPreferences.getString(data_key, "");
+            String dataKey = sharedPreferences.getString(DATA_ALIAS, "");
             if ("".equals(dataKey)) {
                 return null;
             }
@@ -111,7 +111,7 @@ public class AndroidKeyStore {
      */
     public static String doDecrypt(String planText) {
         try {
-            String dataKey = sharedPreferences.getString(data_key, "");
+            String dataKey = sharedPreferences.getString(DATA_ALIAS, "");
             if ("".equals(dataKey)) {
                 return null;
             }
