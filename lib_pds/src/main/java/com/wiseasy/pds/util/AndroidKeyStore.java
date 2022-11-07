@@ -102,4 +102,23 @@ public class AndroidKeyStore {
             return null;
         }
     }
+
+    /**
+     * AES加密
+     *
+     * @param planText 待加密内容
+     * @return
+     */
+    public static String doDecrypt(String planText) {
+        try {
+            String dataKey = sharedPreferences.getString(data_key, "");
+            if ("".equals(dataKey)) {
+                return null;
+            }
+            return AESEncrypt.decrypt(planText, dataKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

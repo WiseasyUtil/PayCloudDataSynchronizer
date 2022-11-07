@@ -88,11 +88,22 @@ public class PdsClient {
 
     /**
      * 敏感数据加密
+     *
      * @param data
      * @return
      */
     public String doDataEncrypt(String data) {
         return AndroidKeyStore.doEncrypt(data);
+    }
+
+    /**
+     * 敏感数据解密
+     *
+     * @param data
+     * @return
+     */
+    public String doDataDecrypt(String data) {
+        return AndroidKeyStore.doDecrypt(data);
     }
 
 
