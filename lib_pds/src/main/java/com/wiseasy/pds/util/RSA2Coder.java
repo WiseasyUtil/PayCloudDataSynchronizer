@@ -30,7 +30,8 @@ import javax.crypto.ShortBufferException;
  * @since 1.0
  */
 public abstract class RSA2Coder {
-
+    /**加密方式，标准jdk的*/
+    public static final String TRANSFORMATION = "RSA/None/PKCS1Padding";
     public static final int KEY_SIZE = 2048;
     public static final String KEY_ALGORITHM = "RSA";
     public static final String SIGNATURE_ALGORITHM = "SHA256WithRSA";
@@ -181,7 +182,7 @@ public abstract class RSA2Coder {
         Key publicKey = keyFactory.generatePublic(x509KeySpec);
 
         // 对数据加密
-        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+        Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
         return encryptSplit(data, cipher);

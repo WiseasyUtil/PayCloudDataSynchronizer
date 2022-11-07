@@ -91,7 +91,6 @@ public class PdsClient {
                     map.put("method", "cashier.signin");
                     map.put("mac_key_cipher", Base64.encode(RSA2Coder.encryptByPublicKey(Base64.decode(dataKey), rsaKey)));
                     map.put("data_key_cipher", Base64.encode(RSA2Coder.encryptByPublicKey(Base64.decode(macKey), rsaKey)));
-
                     map.put("app_id", appId);
                     map.put("version", "2.0");
                     map.put("format", "JSON");

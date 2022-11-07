@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         CashierPayBankcardTransCompleteRequest request = new CashierPayBankcardTransCompleteRequest();
         request.setTrans_no("11111111");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("aaaa","1111");
+        jsonObject.put("aaaa", "1111");
         request.setBankcard_ext_params(jsonObject.toString());
         mPdsClient.execute(request, new PdsResponseCallBack<BaseResponse>() {
             @Override
@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void upLoadFile(View view) {
         File file = getCacheDir();
-        file = new File(file.getAbsolutePath()+"/123");
-        if(!file.exists()) {
+        file = new File(file.getAbsolutePath() + "/123");
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deviceInit() {
-        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266","PP35272137000547", "wzac09fb2b0ad16b28", true,
+        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzac09fb2b0ad16b28", true,
                 new PdsResponseCallBack<DeviceInitResponse>() {
                     @Override
                     public void onError(String errorCode, String errorMsg) {
