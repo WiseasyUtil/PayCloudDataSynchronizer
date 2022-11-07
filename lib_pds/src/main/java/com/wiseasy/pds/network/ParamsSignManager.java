@@ -30,10 +30,10 @@ public class ParamsSignManager {
      */
     public static String deviceSn;
 
-    public static void init(String sn, String id, String key, String pubKey) {
+    public static void init(String sn, String id) {
         deviceSn = sn;
         appId = id;
-        SignHandler.sign = new DefaultParamSign(key, pubKey);
+        SignHandler.sign = new DefaultParamSign();
     }
 
     public static void init(String sn, String id, PdsBaseSign sign) {

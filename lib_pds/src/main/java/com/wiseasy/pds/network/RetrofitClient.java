@@ -46,6 +46,7 @@ public class RetrofitClient {
      */
     private static Boolean isInit = false;
 
+    public static String token = "";
 
     public static Boolean getIsInit() {
         return isInit;
@@ -139,7 +140,7 @@ public class RetrofitClient {
     }
 
     public static void sendCommonRequest(JSONObject params, Class dataClass, PdsResponseCallBack callBack) {
-        getApi().sendRequest(RetrofitClient.createJsonRequestBody(params)).enqueue(new Callback<JSONObject>() {
+        getApi().sendRequest(token,RetrofitClient.createJsonRequestBody(params)).enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
@@ -226,7 +227,10 @@ public class RetrofitClient {
             Log.d(TAG, String.format("收到响应\n%s %s\n请求url：%s\n请求body：%s\n响应body：%s",
                     response.code(), response.message(), response.request().url(), reqBody, respBody));
             JSONObject data = JSONObject.parseObject(respBody);
-            boolean sign = ParamsSignManager.verifySign(data);
+            if (data.containsKey("auth_token")) {
+                token = data.getString("auth_token");
+            }
+            boolean sign = true;
             if (!sign) {
                 JSONObject errJson = new JSONObject();
                 errJson.put("code", ErrorStatus.SIGN_ERROR);

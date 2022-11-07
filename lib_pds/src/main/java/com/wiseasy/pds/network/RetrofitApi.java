@@ -6,6 +6,7 @@ import com.wiseasy.pds.response.BaseResponse;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -20,8 +21,8 @@ public interface RetrofitApi {
      * @param body
      * @return
      */
-    @POST("api/entry")
-    Call<JSONObject> sendRequest(@Body RequestBody body);
+    @POST("api/cashier/entry")
+    Call<JSONObject> sendRequest(@Header("auth_token") String contentRange, @Body RequestBody body);
 
     /**
      * 发送请求

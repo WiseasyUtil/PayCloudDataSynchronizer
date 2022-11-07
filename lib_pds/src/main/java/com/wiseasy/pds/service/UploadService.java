@@ -84,7 +84,7 @@ public class UploadService extends IntentService {
         for (int i = 0; i > array.size(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
             checkFileUpload(jsonObject);
-            Call<JSONObject> result = serviceApi.sendRequest(RetrofitClient.createJsonRequestBody(jsonObject));
+            Call<JSONObject> result = serviceApi.sendRequest(RetrofitClient.token, RetrofitClient.createJsonRequestBody(jsonObject));
             try {
                 Response<JSONObject> data = result.execute();
                 if (data.isSuccessful()) {

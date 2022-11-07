@@ -42,7 +42,7 @@ public class RSA {
 
             byte[] signed = signature.sign();
             
-            return Base64.encode(signed);
+            return new String(Base64.encode(signed));
         } catch (Exception e) {
         	e.printStackTrace();
         }
