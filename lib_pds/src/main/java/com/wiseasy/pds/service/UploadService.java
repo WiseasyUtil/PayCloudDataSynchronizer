@@ -67,10 +67,10 @@ public class UploadService extends IntentService {
         TableRecord.update(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, transactionComplete.toJSONString());
         JSONArray transactionClose = TableRecord.query(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION);
         transactionClose = doUpLoad(transactionClose);
-        TableRecord.update(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, transactionClose.toJSONString());
+        TableRecord.update(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION, transactionClose.toJSONString());
         JSONArray transactionLog = TableRecord.query(db, TableRecord.RECORD_TYPE_LOG);
         transactionLog = doUpLoad(transactionLog);
-        TableRecord.update(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, transactionLog.toJSONString());
+        TableRecord.update(db, TableRecord.RECORD_TYPE_LOG, transactionLog.toJSONString());
         if (!transactionClose.isEmpty() || !transactionComplete.isEmpty() || !transactionLog.isEmpty()) {
             setOneTimeAlarm();
         }
@@ -81,7 +81,7 @@ public class UploadService extends IntentService {
             return array;
         }
         JSONArray endJSONArray = array;
-        for (int i = 0; i > array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
             checkFileUpload(jsonObject);
             Call<JSONObject> result = serviceApi.sendRequest(RetrofitClient.token, RetrofitClient.createJsonRequestBody(jsonObject));
