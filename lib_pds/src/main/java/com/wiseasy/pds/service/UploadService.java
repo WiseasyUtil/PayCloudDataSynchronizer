@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
@@ -88,7 +89,10 @@ public class UploadService extends IntentService {
             try {
                 Response<JSONObject> data = result.execute();
                 if (data.isSuccessful()) {
-                    endJSONArray.remove(i);
+                    JSONObject tradeResult = data.body();
+                    if (tradeResult.containsKey("code") && tradeResult.getString("code").equals("0")) {
+                        endJSONArray.remove(i);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
