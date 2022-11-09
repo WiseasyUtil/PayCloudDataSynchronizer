@@ -37,16 +37,16 @@ public class PdsClient {
      */
     private SQLiteDatabase db;
 
-    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, PdsResponseCallBack callBack) {
+    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, boolean isQueryPayInfo,PdsResponseCallBack callBack) {
         //network init
         RetrofitClient.init(url);
         //database init
         initDatabase(context);
         //device init
-        deviceSignIn(context, appVersion, appId, deviceSn, callBack);
+        deviceSignIn(context, appVersion, appId, deviceSn,isQueryPayInfo,callBack);
     }
 
-    private void deviceSignIn(Context context, String appVersion, String appId, String deviceSn, PdsResponseCallBack callBack) {
+    private void deviceSignIn(Context context, String appVersion, String appId, String deviceSn, boolean isQueryInfo,PdsResponseCallBack callBack) {
         ParamsSignManager.init(deviceSn, appId);
         Map<String, Object> map = new HashMap<>();
         map.put("method", "cashier.init");
@@ -77,6 +77,7 @@ public class PdsClient {
                     map.put("app_id", appId);
                     map.put("version", "2.0");
                     map.put("terminal_sn", deviceSn);
+                    map.put("query_pay_info", isQueryInfo);
                     map.put("timestamp", "" + System.currentTimeMillis());
                     RetrofitClient.sendCommonRequest(new JSONObject(map), DeviceInitResponse.class, callBack);
                 } catch (Exception e) {
