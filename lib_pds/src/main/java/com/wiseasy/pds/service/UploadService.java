@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -37,6 +38,7 @@ public class UploadService extends IntentService {
     private static AlarmManager mAlarmManager;
     private static SQLiteDatabase db;
     private RetrofitApi serviceApi;
+    private static boolean isUpLoad = false;
 
     public static void start(Context context) {
         mAlarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -44,6 +46,10 @@ public class UploadService extends IntentService {
         db = dbHelper.getWritableDatabase();
         Intent intent = new Intent(context, UploadService.class);
         context.startService(intent);
+    }
+
+    public static void setUpLoad(boolean upLoad) {
+        isUpLoad = upLoad;
     }
 
 
@@ -54,6 +60,7 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         //如果是非30分钟闹钟触发，则清除闹钟
+        Log.e("onHandleIntent", "执行更新");
         cancelOneTimeAlarm();
         upload();
     }
@@ -62,15 +69,25 @@ public class UploadService extends IntentService {
      * 查询record表中的数据，然后启动上送，上送成功后删除
      */
     private void upload() {
+        isUpLoad = true;
         serviceApi = RetrofitClient.getApi();
         JSONArray transactionComplete = TableRecord.query(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION);
         transactionComplete = doUpLoad(transactionComplete);
+        if (!isUpLoad) {
+            return;
+        }
         TableRecord.update(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, transactionComplete.toJSONString());
         JSONArray transactionClose = TableRecord.query(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION);
         transactionClose = doUpLoad(transactionClose);
+        if (!isUpLoad) {
+            return;
+        }
         TableRecord.update(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION, transactionClose.toJSONString());
         JSONArray transactionLog = TableRecord.query(db, TableRecord.RECORD_TYPE_LOG);
         transactionLog = doUpLoad(transactionLog);
+        if (!isUpLoad) {
+            return;
+        }
         TableRecord.update(db, TableRecord.RECORD_TYPE_LOG, transactionLog.toJSONString());
         if (!transactionClose.isEmpty() || !transactionComplete.isEmpty() || !transactionLog.isEmpty()) {
             setOneTimeAlarm();

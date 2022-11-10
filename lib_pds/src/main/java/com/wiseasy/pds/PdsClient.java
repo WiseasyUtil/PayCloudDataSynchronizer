@@ -156,6 +156,7 @@ public class PdsClient {
         checkInit();
         TableRecord.insert(db, type, ParamsSignManager.signParams(request).toJSONString());
         UploadService.start(context);
+        UploadService.setUpLoad(false);
     }
 
     /**
