@@ -155,8 +155,8 @@ public class PdsClient {
     public void execute(Context context, int type, BaseRequest request) throws PdsException {
         checkInit();
         TableRecord.insert(db, type, ParamsSignManager.signParams(request).toJSONString());
-        UploadService.start(context);
         UploadService.setUpLoad(false);
+        UploadService.start(context);
     }
 
     /**
