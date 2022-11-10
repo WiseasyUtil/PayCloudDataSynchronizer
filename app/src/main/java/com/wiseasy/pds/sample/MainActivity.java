@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsClient;
 import com.wiseasy.pds.PdsException;
+import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.request.CashierPayBankcardTransCloseRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCompleteRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCreateRequest;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         request.setNet_link_type(TradeConstants.PAY_LOG_NET_LINK_TYPE_PHONE);
         request.setUpload_time("2022-07-07 20:28:28");
         try {
-            mPdsClient.execute(this, request);
+            mPdsClient.execute(this, TableRecord.RECORD_TYPE_LOG,request);
         } catch (PdsException e) {
             e.printStackTrace();
         }

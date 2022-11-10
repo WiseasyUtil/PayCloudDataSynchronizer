@@ -37,6 +37,8 @@ public class TableRecord {
     public static int RECORD_TYPE_SETTLEMENT = 3;
     public static int RECORD_TYPE_LOG = 4;
 
+    private static int DATA_BASE_MAX_LENGTH = 1000;
+
 
     /**
      * insert data
@@ -69,6 +71,9 @@ public class TableRecord {
      */
     public static void addUpdate(SQLiteDatabase db, int type, String content) {
         JSONArray array = query(db, type);
+        if (array.size() >= DATA_BASE_MAX_LENGTH) {
+            array.remove(0);
+        }
         array.add(JSONObject.parseObject(content));
         ContentValues values = new ContentValues();
         values.put(TableRecord.CONTENT_COLUMN, array.toJSONString());

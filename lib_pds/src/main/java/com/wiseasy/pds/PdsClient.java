@@ -37,16 +37,16 @@ public class PdsClient {
      */
     private SQLiteDatabase db;
 
-    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, boolean isQueryPayInfo,PdsResponseCallBack callBack) {
+    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
         //network init
         RetrofitClient.init(url);
         //database init
         initDatabase(context);
         //device init
-        deviceSignIn(context, appVersion, appId, deviceSn,isQueryPayInfo,callBack);
+        deviceInit(context, appVersion, appId, deviceSn, isQueryPayInfo, callBack);
     }
 
-    private void deviceSignIn(Context context, String appVersion, String appId, String deviceSn, boolean isQueryInfo,PdsResponseCallBack callBack) {
+    private void deviceInit(Context context, String appVersion, String appId, String deviceSn, boolean isQueryInfo, PdsResponseCallBack callBack) {
         ParamsSignManager.init(deviceSn, appId);
         Map<String, Object> map = new HashMap<>();
         map.put("method", "cashier.init");
@@ -58,7 +58,7 @@ public class PdsClient {
         RetrofitClient.sendCommonRequest(new JSONObject(map), InitResponse.class, new PdsResponseCallBack<InitResponse>() {
             @Override
             public void onError(String errorCode, String errorMsg) {
-
+                callBack.onError(errorCode, errorMsg);
             }
 
             @Override
@@ -149,11 +149,12 @@ public class PdsClient {
     /**
      * async call the internal handler function of the gateway API
      *
+     * @param type    data type  TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION,TableRecord.RECORD_TYPE_CLOSE_TRANSACTION,TableRecord.RECORD_TYPE_LOG
      * @param request
      */
-    public void execute(Context context, BaseRequest request) throws PdsException {
+    public void execute(Context context, int type, BaseRequest request) throws PdsException {
         checkInit();
-        TableRecord.insert(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION, ParamsSignManager.signParams(request).toJSONString());
+        TableRecord.insert(db, type, ParamsSignManager.signParams(request).toJSONString());
         UploadService.start(context);
     }
 
