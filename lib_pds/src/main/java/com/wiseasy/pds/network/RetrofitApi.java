@@ -30,6 +30,6 @@ public interface RetrofitApi {
      * @param body
      * @return
      */
-    @POST("api/file/upload")
-    Call<JSONObject> sendFileRequest(@Body RequestBody body);
+    @POST("api/cashier/file/upload")
+    Call<JSONObject> sendFileRequest(@Header("x-auth-token") String contentRange,@Body RequestBody body);
 }

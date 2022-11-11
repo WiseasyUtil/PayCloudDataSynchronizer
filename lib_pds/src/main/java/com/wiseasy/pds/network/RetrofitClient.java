@@ -91,30 +91,30 @@ public class RetrofitClient {
         return api;
     }
 
-    public static void sendFileUploadRequest(String institutionNo, File file, PdsResponseCallBack callBack) {
+    public static void sendFileUploadRequest(String terminalSn, File file, PdsResponseCallBack callBack) {
         JSONObject jsonObject = new JSONObject();
         String hash = FileMd5.getFileMD5(file);
         String time = "" + System.currentTimeMillis();
-        jsonObject.put("institution_no", institutionNo);
+        jsonObject.put("terminal_sn", terminalSn);
         jsonObject.put("file_data_hash", hash);
         jsonObject.put("app_id", ParamsSignManager.appId);
-        jsonObject.put("sign_type", "RSA2");
+        jsonObject.put("key_mode", "SK");
         jsonObject.put("version", "1.0");
         jsonObject.put("timestamp", time);
         String signData = SignHandler.sign(jsonObject);
         jsonObject.put("sign", signData);
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addPart(createJsonRequestBody(jsonObject))
-                .addFormDataPart("institution_no", institutionNo)
+                .addFormDataPart("terminal_sn", terminalSn)
                 .addFormDataPart("app_id", ParamsSignManager.appId)
-                .addFormDataPart("sign_type", "RSA2")
+                .addFormDataPart("key_mode", "SK")
                 .addFormDataPart("version", "2.0")
                 .addFormDataPart("sign", signData)
                 .addFormDataPart("timestamp", time)
                 .addFormDataPart("file_data_hash", hash)
                 .addFormDataPart("file_data", file.getName(), createFileRequestBody(file))
                 .build();
-        getApi().sendFileRequest(body).enqueue(new Callback<JSONObject>() {
+        getApi().sendFileRequest(token,body).enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {

@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        mPdsClient.fileUpLoad("100004484", file, new PdsResponseCallBack<String>() {
+        mPdsClient.fileUpLoad("PP35272137000547", file, new PdsResponseCallBack<String>() {
             @Override
             public void onError(String errorCode, String errorMsg) {
                 Toast.makeText(MainActivity.this, "关闭订单失败" + errorMsg, Toast.LENGTH_SHORT).show();

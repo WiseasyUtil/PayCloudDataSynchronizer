@@ -135,15 +135,15 @@ public class PdsClient {
     /**
      * file upload
      *
-     * @param institutionNo institution no
-     * @param file          file
+     * @param terminalSn terminal no
+     * @param file       file
      * @param callBack
      */
-    public void fileUpLoad(String institutionNo, File file, PdsResponseCallBack callBack) {
+    public void fileUpLoad(String terminalSn, File file, PdsResponseCallBack callBack) {
         if (!checkInit(callBack)) {
             return;
         }
-        RetrofitClient.sendFileUploadRequest(institutionNo, file, callBack);
+        RetrofitClient.sendFileUploadRequest(terminalSn, file, callBack);
     }
 
     /**

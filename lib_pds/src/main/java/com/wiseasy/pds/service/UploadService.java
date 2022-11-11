@@ -125,29 +125,25 @@ public class UploadService extends IntentService {
                 JSONObject json = new JSONObject();
                 String hash = FileMd5.getFileMD5(file);
                 String time = "" + System.currentTimeMillis();
-                json.put("institution_no", jsonObject.getString("institution_no"));
+                json.put("terminal_sn", jsonObject.getString("terminal_sn"));
                 json.put("file_data_hash", hash);
                 json.put("app_id", ParamsSignManager.appId);
-                json.put("format", "JSON");
-                json.put("charset", "UTF-8");
-                json.put("sign_type", "RSA2");
+                json.put("key_mode", "SK");
                 json.put("version", "1.0");
                 json.put("timestamp", time);
                 String signData = SignHandler.sign(json);
                 json.put("sign", signData);
                 RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("institution_no", jsonObject.getString("institution_no"))
+                        .addFormDataPart("terminal_sn", jsonObject.getString("terminal_sn"))
                         .addFormDataPart("app_id", ParamsSignManager.appId)
-                        .addFormDataPart("format", "JSON")
-                        .addFormDataPart("charset", "UTF-8")
-                        .addFormDataPart("sign_type", "RSA2")
+                        .addFormDataPart("key_mode", "SK")
                         .addFormDataPart("version", "1.0")
                         .addFormDataPart("sign", signData)
                         .addFormDataPart("timestamp", time)
                         .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))
                         .addFormDataPart("file_data", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                         .build();
-                Call<JSONObject> result = serviceApi.sendFileRequest(body);
+                Call<JSONObject> result = serviceApi.sendFileRequest(RetrofitClient.token, body);
                 try {
                     Response<JSONObject> data = result.execute();
                     if (data.isSuccessful()) {
