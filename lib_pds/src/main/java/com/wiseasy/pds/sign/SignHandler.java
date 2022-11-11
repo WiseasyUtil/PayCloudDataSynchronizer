@@ -41,8 +41,9 @@ public class SignHandler {
 
     private static String signWithRSA(Map<String, Object> sParaTemp) {
         // Remove empty values and 'sign' parameters in the array
+        sParaTemp.remove("responseClass");
+        sParaTemp.remove("requestMethod");
         Map<String, Object> sPara = paraFilter(sParaTemp);
-
         // All elements of the array are spliced into a string according to the pattern of "key=value" with "&" characters
         // and sorted according to the parameter key
         String prestr = createLinkString(sPara);
