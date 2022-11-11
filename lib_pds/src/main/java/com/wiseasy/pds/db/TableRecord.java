@@ -88,6 +88,10 @@ public class TableRecord {
      * @param content
      */
     public static void update(SQLiteDatabase db, int type, String content) {
+        if (content.isEmpty() || content.equals("[]")) {
+            db.delete(TableRecord.TABLE_NAME, "type=?", new String[]{type + ""});
+            return;
+        }
         ContentValues values = new ContentValues();
         values.put(TableRecord.CONTENT_COLUMN, content);
         db.update(TableRecord.TABLE_NAME, values, "type=?", new String[]{type + ""});

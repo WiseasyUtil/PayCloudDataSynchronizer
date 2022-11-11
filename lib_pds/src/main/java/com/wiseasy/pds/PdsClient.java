@@ -170,6 +170,20 @@ public class PdsClient {
         }
         JSONArray completeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION);
         JSONArray closeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION);
+        return completeCount.size() + closeCount.size();
+    }
+
+    /**
+     * get all async data count
+     *
+     * @return
+     */
+    public int getAllAsyncDataCount() {
+        if (null == db) {
+            return 0;
+        }
+        JSONArray completeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_COMPLETE_TRANSACTION);
+        JSONArray closeCount = TableRecord.query(db, TableRecord.RECORD_TYPE_CLOSE_TRANSACTION);
         JSONArray logCount = TableRecord.query(db, TableRecord.RECORD_TYPE_LOG);
         return completeCount.size() + closeCount.size() + logCount.size();
     }
