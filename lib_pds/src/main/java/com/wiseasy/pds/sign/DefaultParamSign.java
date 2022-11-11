@@ -1,7 +1,7 @@
 package com.wiseasy.pds.sign;
 
 import com.wiseasy.pds.PdsBaseSign;
-import com.wiseasy.pds.util.AndroidKeyStore;
+import com.wiseasy.pds.util.KeyStoreUtil;
 
 /**
  * Created by Android Studio.
@@ -17,7 +17,7 @@ public class DefaultParamSign implements PdsBaseSign {
 
     @Override
     public String sign(String params) {
-        return AndroidKeyStore.doMacEncrypt(params, AndroidKeyStore.MAC_ALIAS);
+        return KeyStoreUtil.doMacEncrypt(params, KeyStoreUtil.MAC_ALIAS);
     }
 
     @Override

@@ -58,12 +58,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void transCreateOrder(View view) {
-        String result = mPdsClient.doDataEncrypt("aaaaaaaaaaaaaaaa");
-        String result1 = mPdsClient.doDataDecrypt(result);
         CashierPayBankcardTransCreateRequest request = new CashierPayBankcardTransCreateRequest();
         request.setPrice_currency("MMK");
         request.setOrder_amount(1.0);
-        request.setApp_id("wzac09fb2b0ad16b28");
+        request.setApp_id("wzcb2b2371e2c8576c");
         request.setTrans_type(TradeConstants.TRADE_TYPE_CONSUME);
         request.setPay_method_id(TradeConstants.PAY_METHOD_VISA);
         mPdsClient.execute(request, new PdsResponseCallBack<CashierPayBankCardTransCreateResponse>() {
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deviceInit() {
-        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzac09fb2b0ad16b28",true,
+        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzcb2b2371e2c8576c",true,
                 new PdsResponseCallBack<DeviceInitResponse>() {
                     @Override
                     public void onError(String errorCode, String errorMsg) {

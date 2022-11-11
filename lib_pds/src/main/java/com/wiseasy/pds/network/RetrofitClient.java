@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsResponseCallBack;
 import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.sign.SignHandler;
-import com.wiseasy.pds.util.AndroidKeyStore;
+import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.ExceptionHandler;
 import com.wiseasy.pds.util.FileMd5;
@@ -153,7 +153,7 @@ public class RetrofitClient {
                     callBack.onSuccess(baseResponse);
                 } else {
                     if (baseResponse.getCode().equals("SYS001")) {
-                        AndroidKeyStore.removeAllKey();
+                        KeyStoreUtil.removeAllKey();
                     }
                     callBack.onError(baseResponse.getCode(), baseResponse.getMsg());
                 }

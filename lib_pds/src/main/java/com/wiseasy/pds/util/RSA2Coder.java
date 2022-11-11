@@ -1,7 +1,5 @@
 package com.wiseasy.pds.util;
 
-import com.wiseasy.pds.sign.Base64;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Key;

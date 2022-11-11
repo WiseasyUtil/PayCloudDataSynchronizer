@@ -3,15 +3,7 @@ package com.wiseasy.pds.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.wiseasy.pds.sign.Sha256;
-
 import java.security.SecureRandom;
-import java.util.Random;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by Android Studio.
@@ -21,11 +13,10 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author pupan
  */
-public class AndroidKeyStore {
+public class KeyStoreUtil {
     public static String MAC_ALIAS = "mac_alias";
     public static String DATA_ALIAS = "data_alias";
     private static String keyStoreType = "AndroidKeyStore";
-    private static final String ALG = "AES/ECB/PKCS5Padding";
     public static String mac_key = "";
     public static String data_key = "";
     private static SharedPreferences sharedPreferences;
@@ -33,25 +24,34 @@ public class AndroidKeyStore {
 
     public static void init(Context context) {
         sharedPreferences = context.getSharedPreferences(keyStoreType, 0);
+        AESKeyStore.init();
         if ("".equals(sharedPreferences.getString(MAC_ALIAS, ""))) {
             createKeyStoreEntry(MAC_ALIAS);
         } else {
-            mac_key = sharedPreferences.getString(MAC_ALIAS, "");
+            try {
+                mac_key = AESKeyStore.decrypt(sharedPreferences.getString(MAC_ALIAS, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if ("".equals(sharedPreferences.getString(DATA_ALIAS, ""))) {
             createKeyStoreEntry(DATA_ALIAS);
         } else {
-            data_key = sharedPreferences.getString(DATA_ALIAS, "");
+            try {
+                data_key = AESKeyStore.decrypt(sharedPreferences.getString(DATA_ALIAS, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public static void removeAllKey() {
-        SharedPreferences.Editor editer = sharedPreferences.edit();
-        editer.remove(MAC_ALIAS);
-        editer.remove(DATA_ALIAS);
-        editer.clear();
-        editer.commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(MAC_ALIAS);
+        editor.remove(DATA_ALIAS);
+        editor.clear();
+        editor.commit();
     }
 
     private static String getRandomString(final int sizeOfRandomString) {
@@ -64,24 +64,37 @@ public class AndroidKeyStore {
     }
 
     private static void createKeyStoreEntry(String alias) {
-        String key = getRandomString(32);
-        if (alias.equals(MAC_ALIAS)) {
-            mac_key = key;
-        } else {
-            data_key = key;
+        String key = null;
+        try {
+            String random = getRandomString(32);
+            key = AESKeyStore.encrypt(random);
+            if (alias.equals(MAC_ALIAS)) {
+                mac_key = random;
+            } else {
+                data_key = random;
+            }
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString(alias, key);
+            edit.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(alias, key);
-        edit.commit();
     }
 
     public static String doMacEncrypt(String planText, String alias) {
-        String mainKey = sharedPreferences.getString(alias, "");
-        if ("".equals(mainKey)) {
-            return null;
+        String mainKey;
+        try {
+            mainKey = AESKeyStore.decrypt(sharedPreferences.getString(alias, ""));
+            if ("".equals(mainKey)) {
+                return null;
+            }
+            String share256 = Sha256.getSHA256(planText);
+            String mac = AESEncrypt.encrypt(share256, mainKey);
+            return mac;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String text = planText + mainKey;
-        return Sha256.getSHA256(text);
+        return "";
     }
 
     /**
@@ -92,7 +105,7 @@ public class AndroidKeyStore {
      */
     public static String doEncrypt(String planText) {
         try {
-            String dataKey = sharedPreferences.getString(DATA_ALIAS, "");
+            String dataKey = AESKeyStore.decrypt(sharedPreferences.getString(DATA_ALIAS, ""));
             if ("".equals(dataKey)) {
                 return null;
             }
@@ -111,7 +124,7 @@ public class AndroidKeyStore {
      */
     public static String doDecrypt(String planText) {
         try {
-            String dataKey = sharedPreferences.getString(DATA_ALIAS, "");
+            String dataKey = AESKeyStore.decrypt(sharedPreferences.getString(DATA_ALIAS, ""));
             if ("".equals(dataKey)) {
                 return null;
             }

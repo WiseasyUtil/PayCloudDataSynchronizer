@@ -14,8 +14,8 @@ import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitClient;
 import com.wiseasy.pds.response.InitResponse;
 import com.wiseasy.pds.service.UploadService;
-import com.wiseasy.pds.sign.Base64;
-import com.wiseasy.pds.util.AndroidKeyStore;
+import com.wiseasy.pds.util.Base64;
+import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.RSA2Coder;
 
@@ -65,9 +65,9 @@ public class PdsClient {
             public void onSuccess(InitResponse data) {
                 try {
                     String rsaKey = data.getPublic_key();
-                    AndroidKeyStore.init(context);
-                    String dataKey = AndroidKeyStore.data_key;
-                    String macKey = AndroidKeyStore.mac_key;
+                    KeyStoreUtil.init(context);
+                    String dataKey = KeyStoreUtil.data_key;
+                    String macKey = KeyStoreUtil.mac_key;
                     Log.e("数据密钥", dataKey);
                     Log.e("mac密钥", macKey);
                     Map<String, Object> map = new HashMap<>();
@@ -94,7 +94,7 @@ public class PdsClient {
      * @return
      */
     public String doDataEncrypt(String data) {
-        return AndroidKeyStore.doEncrypt(data);
+        return KeyStoreUtil.doEncrypt(data);
     }
 
     /**
@@ -104,7 +104,7 @@ public class PdsClient {
      * @return
      */
     public String doDataDecrypt(String data) {
-        return AndroidKeyStore.doDecrypt(data);
+        return KeyStoreUtil.doDecrypt(data);
     }
 
 

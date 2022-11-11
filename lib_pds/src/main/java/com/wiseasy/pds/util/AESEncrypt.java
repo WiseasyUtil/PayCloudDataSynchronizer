@@ -1,7 +1,5 @@
 package com.wiseasy.pds.util;
 
-import com.wiseasy.pds.sign.Base64;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
