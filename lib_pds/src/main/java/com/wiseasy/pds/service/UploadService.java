@@ -129,7 +129,7 @@ public class UploadService extends IntentService {
                 json.put("file_data_hash", hash);
                 json.put("app_id", ParamsSignManager.appId);
                 json.put("key_mode", "SK");
-                json.put("version", "1.0");
+                json.put("version", "2.0");
                 json.put("timestamp", time);
                 String signData = SignHandler.sign(json);
                 json.put("sign", signData);
@@ -137,7 +137,7 @@ public class UploadService extends IntentService {
                         .addFormDataPart("terminal_sn", jsonObject.getString("terminal_sn"))
                         .addFormDataPart("app_id", ParamsSignManager.appId)
                         .addFormDataPart("key_mode", "SK")
-                        .addFormDataPart("version", "1.0")
+                        .addFormDataPart("version", "2.0")
                         .addFormDataPart("sign", signData)
                         .addFormDataPart("timestamp", time)
                         .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))

@@ -99,7 +99,7 @@ public class RetrofitClient {
         jsonObject.put("file_data_hash", hash);
         jsonObject.put("app_id", ParamsSignManager.appId);
         jsonObject.put("key_mode", "SK");
-        jsonObject.put("version", "1.0");
+        jsonObject.put("version", "2.0");
         jsonObject.put("timestamp", time);
         String signData = SignHandler.sign(jsonObject);
         jsonObject.put("sign", signData);
