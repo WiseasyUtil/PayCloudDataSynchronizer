@@ -72,8 +72,12 @@ public class PdsClient {
             map.put("data_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(dataKey.getBytes(), RSA2Coder.PUBLIC_BASE_KEY)));
             map.put("app_id", ParamsSignManager.appId);
             map.put("version", "2.0");
-            map.put("userName", userName);
-            map.put("password", password);
+            if (!userName.isEmpty()) {
+                map.put("username", userName);
+            }
+            if (!password.isEmpty()) {
+                map.put("password", password);
+            }
             map.put("terminal_sn", ParamsSignManager.deviceSn);
             map.put("query_pay_info", isQueryPayInfo);
             map.put("timestamp", "" + System.currentTimeMillis());

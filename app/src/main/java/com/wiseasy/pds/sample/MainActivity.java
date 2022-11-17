@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(InitResponse data) {
-                        mPdsClient.signIn("1", "1", true, new PdsResponseCallBack<DeviceSignInResponse>() {
+                        mPdsClient.signIn("", "", true, new PdsResponseCallBack<DeviceSignInResponse>() {
 
                             @Override
                             public void onError(String errorCode, String errorMsg) {
