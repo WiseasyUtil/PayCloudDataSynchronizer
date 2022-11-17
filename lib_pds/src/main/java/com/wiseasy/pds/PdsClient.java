@@ -9,15 +9,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
 import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.request.BaseRequest;
-import com.wiseasy.pds.response.DeviceInitResponse;
 import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitClient;
+import com.wiseasy.pds.response.DeviceSignInResponse;
 import com.wiseasy.pds.response.InitResponse;
-import com.wiseasy.pds.service.UploadService;
 import com.wiseasy.pds.security.Base64;
+import com.wiseasy.pds.security.RSA2Coder;
+import com.wiseasy.pds.service.UploadService;
 import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
-import com.wiseasy.pds.security.RSA2Coder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,16 +37,18 @@ public class PdsClient {
      */
     private SQLiteDatabase db;
 
-    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
+    public PdsClient(Context context, String url, String appVersion, String deviceSn, String appId, PdsResponseCallBack callBack) {
         //network init
         RetrofitClient.init(url);
         //database init
         initDatabase(context);
-        //device init
-        deviceInit(context, appVersion, appId, deviceSn, isQueryPayInfo, callBack);
+        //key init
+        KeyStoreUtil.init(context);
+        // init
+        init(appVersion, appId, deviceSn, callBack);
     }
 
-    private void deviceInit(Context context, String appVersion, String appId, String deviceSn, boolean isQueryInfo, PdsResponseCallBack callBack) {
+    private void init(String appVersion, String appId, String deviceSn, PdsResponseCallBack callBack) {
         ParamsSignManager.init(deviceSn, appId);
         Map<String, Object> map = new HashMap<>();
         map.put("method", "cashier.init");
@@ -55,36 +57,30 @@ public class PdsClient {
         map.put("version", "2.0");
         map.put("terminal_sn", deviceSn);
         map.put("timestamp", "" + System.currentTimeMillis());
-        RetrofitClient.sendCommonRequest(new JSONObject(map), InitResponse.class, new PdsResponseCallBack<InitResponse>() {
-            @Override
-            public void onError(String errorCode, String errorMsg) {
-                callBack.onError(errorCode, errorMsg);
-            }
+        RetrofitClient.sendCommonRequest(new JSONObject(map), InitResponse.class, callBack);
+    }
 
-            @Override
-            public void onSuccess(InitResponse data) {
-                try {
-                    String rsaKey = data.getPublic_key();
-                    KeyStoreUtil.init(context);
-                    String dataKey = KeyStoreUtil.data_key;
-                    String macKey = KeyStoreUtil.mac_key;
-                    Log.e("数据密钥", dataKey);
-                    Log.e("mac密钥", macKey);
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("method", "cashier.signin");
-                    map.put("mac_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(macKey.getBytes(), rsaKey)));
-                    map.put("data_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(dataKey.getBytes(), rsaKey)));
-                    map.put("app_id", appId);
-                    map.put("version", "2.0");
-                    map.put("terminal_sn", deviceSn);
-                    map.put("query_pay_info", isQueryInfo);
-                    map.put("timestamp", "" + System.currentTimeMillis());
-                    RetrofitClient.sendCommonRequest(new JSONObject(map), DeviceInitResponse.class, callBack);
-                } catch (Exception e) {
-                    callBack.onError(e.getMessage(), e.getMessage());
-                }
-            }
-        });
+    public void signIn(String userName, String password, boolean isQueryPayInfo, PdsResponseCallBack callBack) {
+        try {
+            String dataKey = KeyStoreUtil.data_key;
+            String macKey = KeyStoreUtil.mac_key;
+            Log.e("数据密钥", dataKey);
+            Log.e("mac密钥", macKey);
+            Map<String, Object> map = new HashMap<>();
+            map.put("method", "cashier.signin");
+            map.put("mac_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(macKey.getBytes(), RSA2Coder.PUBLIC_BASE_KEY)));
+            map.put("data_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(dataKey.getBytes(), RSA2Coder.PUBLIC_BASE_KEY)));
+            map.put("app_id", ParamsSignManager.appId);
+            map.put("version", "2.0");
+            map.put("userName", userName);
+            map.put("password", password);
+            map.put("terminal_sn", ParamsSignManager.deviceSn);
+            map.put("query_pay_info", isQueryPayInfo);
+            map.put("timestamp", "" + System.currentTimeMillis());
+            RetrofitClient.sendCommonRequest(new JSONObject(map), DeviceSignInResponse.class, callBack);
+        } catch (Exception e) {
+            callBack.onError(e.getMessage(), e.getMessage());
+        }
     }
 
     /**

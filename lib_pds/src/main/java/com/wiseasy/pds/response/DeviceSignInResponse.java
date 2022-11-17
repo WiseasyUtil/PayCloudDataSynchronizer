@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author pupan
  */
-public class DeviceInitResponse extends BaseResponse {
+public class DeviceSignInResponse extends BaseResponse {
     JSONObject basic_info;
     List<JSONObject> pay_info;
     String aes_key_cipher;

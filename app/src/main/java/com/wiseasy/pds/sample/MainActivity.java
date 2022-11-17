@@ -11,15 +11,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsClient;
 import com.wiseasy.pds.PdsException;
 import com.wiseasy.pds.db.TableRecord;
-import com.wiseasy.pds.request.CashierPayBankcardTransCloseRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCompleteRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCreateRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransLogUploadRequest;
 import com.wiseasy.pds.request.CashierTransDetailRequest;
 import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.response.CashierPayBankCardTransCreateResponse;
-import com.wiseasy.pds.response.DeviceInitResponse;
 import com.wiseasy.pds.PdsResponseCallBack;
+import com.wiseasy.pds.response.DeviceSignInResponse;
+import com.wiseasy.pds.response.InitResponse;
 import com.wiseasy.pds.response.TransactionDetailQueryResponse;
 import com.wiseasy.pds.util.TradeConstants;
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         request.setNet_link_type(TradeConstants.PAY_LOG_NET_LINK_TYPE_PHONE);
         request.setUpload_time("2022-07-07 20:28:28");
         try {
-            mPdsClient.execute(this, TableRecord.RECORD_TYPE_LOG,request);
+            mPdsClient.execute(this, TableRecord.RECORD_TYPE_LOG, request);
         } catch (PdsException e) {
             e.printStackTrace();
         }
@@ -169,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deviceInit() {
-        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzcb2b2371e2c8576c",true,
-                new PdsResponseCallBack<DeviceInitResponse>() {
+        mPdsClient = new PdsClient(this, "https://gw.wisepaycloud.com/", "2122060266", "PP35272137000547", "wzcb2b2371e2c8576c",
+                new PdsResponseCallBack<InitResponse>() {
                     @Override
                     public void onError(String errorCode, String errorMsg) {
                         Log.e("收到错误回调", errorMsg + errorCode);
@@ -178,16 +178,28 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onSuccess(DeviceInitResponse data) {
-                        Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
-                        findViewById(R.id.create_bank_card_order).setVisibility(View.VISIBLE);
-                        findViewById(R.id.bank_card_trans_close).setVisibility(View.VISIBLE);
-                        findViewById(R.id.bank_card_order_complete).setVisibility(View.VISIBLE);
-                        findViewById(R.id.trans_log_upload).setVisibility(View.VISIBLE);
-                        findViewById(R.id.upload_file).setVisibility(View.VISIBLE);
-                        findViewById(R.id.trans_list).setVisibility(View.VISIBLE);
-                        findViewById(R.id.trans_detail).setVisibility(View.VISIBLE);
-                        Log.e("收到成功数据", data.toString());
+                    public void onSuccess(InitResponse data) {
+                        mPdsClient.signIn("1", "1", true, new PdsResponseCallBack<DeviceSignInResponse>() {
+
+                            @Override
+                            public void onError(String errorCode, String errorMsg) {
+                                Log.e("收到错误回调", errorMsg + errorCode);
+                                Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(DeviceSignInResponse data) {
+                                Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
+                                findViewById(R.id.create_bank_card_order).setVisibility(View.VISIBLE);
+                                findViewById(R.id.bank_card_trans_close).setVisibility(View.VISIBLE);
+                                findViewById(R.id.bank_card_order_complete).setVisibility(View.VISIBLE);
+                                findViewById(R.id.trans_log_upload).setVisibility(View.VISIBLE);
+                                findViewById(R.id.upload_file).setVisibility(View.VISIBLE);
+                                findViewById(R.id.trans_list).setVisibility(View.VISIBLE);
+                                findViewById(R.id.trans_detail).setVisibility(View.VISIBLE);
+                                Log.e("收到成功数据", data.toString());
+                            }
+                        });
                     }
                 });
     }

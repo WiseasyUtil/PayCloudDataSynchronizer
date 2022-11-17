@@ -1,7 +1,5 @@
 package com.wiseasy.pds.security;
 
-import com.wiseasy.pds.security.Base64;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Key;
@@ -38,6 +36,8 @@ public abstract class RSA2Coder {
 
     private static final String PUBLIC_KEY = "RSAPublicKey";
     private static final String PRIVATE_KEY = "RSAPrivateKey";
+
+    public static String PUBLIC_BASE_KEY;
 
     /**
      * RSA最大加密明文大小

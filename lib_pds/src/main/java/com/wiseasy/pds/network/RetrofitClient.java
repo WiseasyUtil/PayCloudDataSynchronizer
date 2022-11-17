@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.PdsResponseCallBack;
 import com.wiseasy.pds.response.BaseResponse;
+import com.wiseasy.pds.security.RSA2Coder;
 import com.wiseasy.pds.sign.SignHandler;
 import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
@@ -114,7 +115,7 @@ public class RetrofitClient {
                 .addFormDataPart("file_data_hash", hash)
                 .addFormDataPart("file_data", file.getName(), createFileRequestBody(file))
                 .build();
-        getApi().sendFileRequest(token,body).enqueue(new Callback<JSONObject>() {
+        getApi().sendFileRequest(token, body).enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (!response.isSuccessful()) {
@@ -242,8 +243,11 @@ public class RetrofitClient {
                     result.putAll(JSONObject.parseObject(dataStr));
                 }
                 result.remove("data");
-                if (result.containsKey("auth_token")&&!"".equals(result.getString("auth_token"))) {
+                if (result.containsKey("auth_token") && !"".equals(result.getString("auth_token"))) {
                     token = result.getString("auth_token");
+                }
+                if (result.containsKey("public_key")) {
+                    RSA2Coder.PUBLIC_BASE_KEY = result.getString("public_key");
                 }
                 ResponseBody myBody = ResponseBody.create(MediaType.get("text/plain"), result.toJSONString());
                 return response.newBuilder().body(myBody).build();
