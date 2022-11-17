@@ -4,6 +4,8 @@ import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 
+import com.wiseasy.pds.security.Base64;
+
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;

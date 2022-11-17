@@ -10,7 +10,7 @@ import com.wiseasy.pds.sign.SignHandler;
 import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
 import com.wiseasy.pds.util.ExceptionHandler;
-import com.wiseasy.pds.util.FileMd5;
+import com.wiseasy.pds.security.FileMd5;
 
 import java.io.File;
 import java.io.IOException;

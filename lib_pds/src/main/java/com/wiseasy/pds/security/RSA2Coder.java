@@ -1,4 +1,6 @@
-package com.wiseasy.pds.util;
+package com.wiseasy.pds.security;
+
+import com.wiseasy.pds.security.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wiseasy.pds.db.DbHelper;
@@ -16,9 +15,8 @@ import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitApi;
 import com.wiseasy.pds.network.RetrofitClient;
-import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.sign.SignHandler;
-import com.wiseasy.pds.util.FileMd5;
+import com.wiseasy.pds.security.FileMd5;
 
 import java.io.File;
 import java.io.IOException;

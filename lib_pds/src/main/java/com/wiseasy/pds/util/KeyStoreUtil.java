@@ -3,6 +3,9 @@ package com.wiseasy.pds.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.wiseasy.pds.security.AESEncrypt;
+import com.wiseasy.pds.security.Sha256;
+
 import java.security.SecureRandom;
 
 /**

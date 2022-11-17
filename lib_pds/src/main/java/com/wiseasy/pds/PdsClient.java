@@ -14,10 +14,10 @@ import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitClient;
 import com.wiseasy.pds.response.InitResponse;
 import com.wiseasy.pds.service.UploadService;
-import com.wiseasy.pds.util.Base64;
+import com.wiseasy.pds.security.Base64;
 import com.wiseasy.pds.util.KeyStoreUtil;
 import com.wiseasy.pds.util.ErrorStatus;
-import com.wiseasy.pds.util.RSA2Coder;
+import com.wiseasy.pds.security.RSA2Coder;
 
 import java.io.File;
 import java.util.HashMap;
