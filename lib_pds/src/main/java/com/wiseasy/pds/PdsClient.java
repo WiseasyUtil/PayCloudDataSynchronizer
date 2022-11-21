@@ -54,6 +54,7 @@ public class PdsClient {
         map.put("method", "cashier.init");
         map.put("app_id", appId);
         map.put("app_version", appVersion);
+        map.put("key_mode", "SK");
         map.put("version", "2.0");
         map.put("terminal_sn", deviceSn);
         map.put("timestamp", "" + System.currentTimeMillis());
@@ -68,6 +69,7 @@ public class PdsClient {
             Log.e("mac密钥", macKey);
             Map<String, Object> map = new HashMap<>();
             map.put("method", "cashier.signin");
+            map.put("key_mode", "SK");
             map.put("mac_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(macKey.getBytes(), RSA2Coder.PUBLIC_BASE_KEY)));
             map.put("data_key_cipher", Base64.encodeToString(RSA2Coder.encryptByPublicKey(dataKey.getBytes(), RSA2Coder.PUBLIC_BASE_KEY)));
             map.put("app_id", ParamsSignManager.appId);

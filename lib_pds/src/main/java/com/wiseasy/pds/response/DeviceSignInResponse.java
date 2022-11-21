@@ -14,9 +14,18 @@ import java.util.List;
  */
 public class DeviceSignInResponse extends BaseResponse {
     JSONObject basic_info;
+    JSONObject user_info;
     List<JSONObject> pay_info;
     String aes_key_cipher;
     String aes_key_expire_time;
+
+    public JSONObject getUser_info() {
+        return user_info;
+    }
+
+    public void setUser_info(JSONObject user_info) {
+        this.user_info = user_info;
+    }
 
     public List<JSONObject> getPay_info() {
         return pay_info;
