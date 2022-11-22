@@ -15,6 +15,7 @@ import com.wiseasy.pds.request.CashierPayBankcardTransCompleteRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCreateRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransLogUploadRequest;
 import com.wiseasy.pds.request.CashierTransDetailRequest;
+import com.wiseasy.pds.request.CashierUserPasswordModifyRequest;
 import com.wiseasy.pds.response.BaseResponse;
 import com.wiseasy.pds.response.CashierPayBankCardTransCreateResponse;
 import com.wiseasy.pds.PdsResponseCallBack;
