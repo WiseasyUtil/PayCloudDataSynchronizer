@@ -45,6 +45,7 @@ public class PdsClient {
         //key init
         KeyStoreUtil.init(context);
         // init
+        ParamsSignManager.initLocation(context);
         init(appVersion, appId, deviceSn, callBack);
     }
 

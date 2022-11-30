@@ -1,7 +1,11 @@
 package com.wiseasy.pds.network;
 
+import android.content.Context;
+import android.location.Address;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wise.util.location.WiseLocation;
 import com.wiseasy.pds.PdsBaseSign;
 import com.wiseasy.pds.request.BaseRequest;
 import com.wiseasy.pds.sign.DefaultParamSign;
@@ -30,10 +34,16 @@ public class ParamsSignManager {
      */
     public static String deviceSn;
 
+    private static Address address;
+
     public static void init(String sn, String id) {
         deviceSn = sn;
         appId = id;
         SignHandler.sign = new DefaultParamSign();
+    }
+
+    public static void initLocation(Context context) {
+        address = WiseLocation.getBestLocation(context);
     }
 
     public static void init(String sn, String id, PdsBaseSign sign) {
@@ -72,6 +82,12 @@ public class ParamsSignManager {
         JSONObject params = JSONObject.parseObject(JSON.toJSONString(request));
         addPublicParams(params);
         params.put("method", request.getRequestMethod());
+        if ("cashier.pay.bankcard.trans.create".equals(request.getRequestMethod()) && null != address) {
+            params.put("country", address.getCountryName());
+            params.put("city", address.getLocality());
+            params.put("longitude", address.getLongitude());
+            params.put("latitude", address.getLatitude());
+        }
         String signData = SignHandler.sign(params);
         params.put("sign", signData);
         return params;

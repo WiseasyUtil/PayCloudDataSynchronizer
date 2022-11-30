@@ -19,6 +19,7 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:4.9.2"
     api "com.squareup.okhttp3:logging-interceptor:4.9.2"
     //retrofit2
+    implementation 'com.wise.util:android-sdk:1.0.40-SNAPSHOT'
     api 'com.squareup.retrofit2:retrofit:2.7.1'
     api 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
 }
