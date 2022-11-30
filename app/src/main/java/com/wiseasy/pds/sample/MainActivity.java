@@ -14,6 +14,7 @@ import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.request.CashierPayBankcardTransCompleteRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransCreateRequest;
 import com.wiseasy.pds.request.CashierPayBankcardTransLogUploadRequest;
+import com.wiseasy.pds.request.CashierPayCashpayRequest;
 import com.wiseasy.pds.request.CashierTransDetailRequest;
 import com.wiseasy.pds.request.CashierUserPasswordModifyRequest;
 import com.wiseasy.pds.response.BaseResponse;

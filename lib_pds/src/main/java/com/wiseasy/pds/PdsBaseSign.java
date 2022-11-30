@@ -1,12 +1,11 @@
 package com.wiseasy.pds;
 
-import java.util.Map;
-
 /**
  * Base Sign
  * User: pupan
  * Date: 8/25/2022
  * Time: 4:36 PM
+ *
  * @author pupan
  */
 public interface PdsBaseSign {
@@ -14,7 +13,7 @@ public interface PdsBaseSign {
     /**
      * Signature function
      *
-     * @param params     Parameters to be signed
+     * @param params Parameters to be signed
      * @return 签名字符串
      */
     String sign(String params);
@@ -22,9 +21,9 @@ public interface PdsBaseSign {
     /**
      * verifySign
      *
-     * @param params    Parameters to be verified
-     * @param sign sign
+     * @param params Parameters to be verified
+     * @param sign   sign
      * @return
      */
-    boolean  verifySign(String params,String sign);
+    boolean verifySign(String params, String sign);
 }
