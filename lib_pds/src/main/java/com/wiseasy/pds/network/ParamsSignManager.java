@@ -5,8 +5,8 @@ import android.location.Address;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.wise.util.location.WiseLocation;
 import com.wiseasy.pds.PdsBaseSign;
+import com.wiseasy.pds.location.WiseLocation;
 import com.wiseasy.pds.request.BaseRequest;
 import com.wiseasy.pds.sign.DefaultParamSign;
 import com.wiseasy.pds.sign.SignHandler;
