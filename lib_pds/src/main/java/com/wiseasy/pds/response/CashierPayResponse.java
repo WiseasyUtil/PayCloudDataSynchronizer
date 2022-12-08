@@ -8,7 +8,7 @@ package com.wiseasy.pds.response;
  */
 public class CashierPayResponse extends BaseResponse {
     String trans_no;
-    double trans_status;
+    int trans_status;
     String trans_end_time;
     String pay_scenario;
     double trans_fee_m;
@@ -23,7 +23,7 @@ public class CashierPayResponse extends BaseResponse {
     String app_id;
     String price_currency;
     String terminal_sn;
-    double trans_type;
+    int trans_type;
     String merchant_no;
     String create_time;
     String institution_no;
@@ -75,7 +75,7 @@ public class CashierPayResponse extends BaseResponse {
         return merchant_no;
     }
 
-    public double getTrans_type() {
+    public int getTrans_type() {
         return trans_type;
     }
 
@@ -235,7 +235,7 @@ public class CashierPayResponse extends BaseResponse {
         this.trans_fee_m = trans_fee_m;
     }
 
-    public double getTrans_status() {
+    public int getTrans_status() {
         return trans_status;
     }
 
