@@ -117,11 +117,16 @@ public class UploadService extends IntentService {
     }
 
     public void checkFileUpload(JSONObject jsonObject) {
-        if (jsonObject.getString("method").equals("cashier.pay.bankcard.trans.complete")) {
+        if (jsonObject.getString("method").equals("cashier.pay.bankcard.trans.complete") || jsonObject.getString("method").equals("cashier.pay.bankcard.trans.settle.upload")) {
+            File upLoadFile = null;
             if (null != jsonObject.getString("electron_sign_url")) {
-                File file = new File(jsonObject.getString("electron_sign_url"));
+                upLoadFile = new File(jsonObject.getString("electron_sign_url"));
+            } else if (null != jsonObject.getString("file")) {
+                upLoadFile = new File(jsonObject.getString("file"));
+            }
+            if (null != upLoadFile) {
                 JSONObject json = new JSONObject();
-                String hash = FileMd5.getFileMD5(file);
+                String hash = FileMd5.getFileMD5(upLoadFile);
                 String time = "" + System.currentTimeMillis();
                 json.put("terminal_sn", jsonObject.getString("terminal_sn"));
                 json.put("file_data_hash", hash);
@@ -138,15 +143,20 @@ public class UploadService extends IntentService {
                         .addFormDataPart("version", "2.0")
                         .addFormDataPart("sign", signData)
                         .addFormDataPart("timestamp", time)
-                        .addFormDataPart("file_data_hash", FileMd5.getFileMD5(file))
-                        .addFormDataPart("file_data", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+                        .addFormDataPart("file_data_hash", FileMd5.getFileMD5(upLoadFile))
+                        .addFormDataPart("file_data", upLoadFile.getName(), RequestBody.create(MediaType.parse("image/*"), upLoadFile))
                         .build();
                 Call<JSONObject> result = serviceApi.sendFileRequest(RetrofitClient.token, body);
                 try {
                     Response<JSONObject> data = result.execute();
                     if (data.isSuccessful()) {
-                        jsonObject.remove("electron_sign_url");
-                        jsonObject.put("electron_sign_url", data.body().getString("file_key"));
+                        if (jsonObject.getString("method").equals("cashier.pay.bankcard.trans.complete")) {
+                            jsonObject.remove("electron_sign_url");
+                            jsonObject.put("electron_sign_url", data.body().getString("file_key"));
+                        } else {
+                            jsonObject.remove("file");
+                            jsonObject.put("settle_file_key", data.body().getString("file_key"));
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

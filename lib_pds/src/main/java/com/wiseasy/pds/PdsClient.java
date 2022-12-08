@@ -3,6 +3,7 @@ package com.wiseasy.pds;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -11,6 +12,7 @@ import com.wiseasy.pds.db.TableRecord;
 import com.wiseasy.pds.request.BaseRequest;
 import com.wiseasy.pds.network.ParamsSignManager;
 import com.wiseasy.pds.network.RetrofitClient;
+import com.wiseasy.pds.request.CashierPayBankcardTransSettleUploadRequest;
 import com.wiseasy.pds.response.DeviceSignInResponse;
 import com.wiseasy.pds.response.InitResponse;
 import com.wiseasy.pds.security.Base64;
@@ -131,8 +133,30 @@ public class PdsClient {
         if (!checkInit(callBack)) {
             return;
         }
-        JSONObject params = ParamsSignManager.signParams(request);
-        RetrofitClient.sendCommonRequest(params, request.getResponseClass(), callBack);
+        if (request instanceof CashierPayBankcardTransSettleUploadRequest) {
+            CashierPayBankcardTransSettleUploadRequest settleUploadRequest = (CashierPayBankcardTransSettleUploadRequest) request;
+            if (null != settleUploadRequest.getFile() && null == settleUploadRequest.getSettle_file_key()) {
+                fileUpLoad(settleUploadRequest.getTerminal_sn(), new File(settleUploadRequest.getFile()), new PdsResponseCallBack<String>() {
+                    @Override
+                    public void onError(String errorCode, String errorMsg) {
+                        Log.d("文件上传错误", errorMsg);
+                    }
+
+                    @Override
+                    public void onSuccess(String data) {
+                        settleUploadRequest.setSettle_file_key(data);
+                        JSONObject params = ParamsSignManager.signParams(settleUploadRequest);
+                        RetrofitClient.sendCommonRequest(params, settleUploadRequest.getResponseClass(), callBack);
+                    }
+                });
+            } else {
+                JSONObject params = ParamsSignManager.signParams(request);
+                RetrofitClient.sendCommonRequest(params, request.getResponseClass(), callBack);
+            }
+        } else {
+            JSONObject params = ParamsSignManager.signParams(request);
+            RetrofitClient.sendCommonRequest(params, request.getResponseClass(), callBack);
+        }
     }
 
     /**
