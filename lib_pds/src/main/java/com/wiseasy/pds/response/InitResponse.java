@@ -5,11 +5,30 @@ package com.wiseasy.pds.response;
  * User: pupan
  * Date: 11/7/2022
  * Time: 12:59 PM
+ *
  * @author pupan
  */
 public class InitResponse extends BaseResponse {
     boolean enable_user_signin;
     String public_key;
+    String aid_params_version;
+    String capk_params_version;
+
+    public void setAid_params_version(String aid_params_version) {
+        this.aid_params_version = aid_params_version;
+    }
+
+    public void setCapk_params_version(String capk_params_version) {
+        this.capk_params_version = capk_params_version;
+    }
+
+    public String getAid_params_version() {
+        return aid_params_version;
+    }
+
+    public String getCapk_params_version() {
+        return capk_params_version;
+    }
 
     public String getPublic_key() {
         return public_key;
