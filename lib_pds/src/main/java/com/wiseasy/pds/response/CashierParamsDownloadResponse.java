@@ -8,7 +8,7 @@ package com.wiseasy.pds.response;
  *
  * @author pupan
  */
-public class CashierParamsDownloadResponse {
+public class CashierParamsDownloadResponse extends BaseResponse{
     String params_value;
     String params_version;
 
