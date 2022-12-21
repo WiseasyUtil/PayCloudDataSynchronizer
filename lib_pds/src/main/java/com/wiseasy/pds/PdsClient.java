@@ -127,6 +127,43 @@ public class PdsClient {
      * sync call the internal handler function of the gateway API
      *
      * @param request
+     * @param needSignIn
+     * @param callBack
+     */
+    public void execute(BaseRequest request, boolean needSignIn, PdsResponseCallBack callBack) {
+        if (needSignIn && !checkInit(callBack)) {
+            return;
+        }
+        if (request instanceof CashierPayBankcardTransSettleUploadRequest) {
+            CashierPayBankcardTransSettleUploadRequest settleUploadRequest = (CashierPayBankcardTransSettleUploadRequest) request;
+            if (null != settleUploadRequest.getFile() && null == settleUploadRequest.getSettle_file_key()) {
+                fileUpLoad(settleUploadRequest.getTerminal_sn(), new File(settleUploadRequest.getFile()), new PdsResponseCallBack<String>() {
+                    @Override
+                    public void onError(String errorCode, String errorMsg) {
+                        Log.d("文件上传错误", errorMsg);
+                    }
+
+                    @Override
+                    public void onSuccess(String data) {
+                        settleUploadRequest.setSettle_file_key(data);
+                        JSONObject params = ParamsSignManager.signParams(settleUploadRequest);
+                        RetrofitClient.sendCommonRequest(params, settleUploadRequest.getResponseClass(), callBack);
+                    }
+                });
+            } else {
+                JSONObject params = ParamsSignManager.signParams(request);
+                RetrofitClient.sendCommonRequest(params, request.getResponseClass(), callBack);
+            }
+        } else {
+            JSONObject params = ParamsSignManager.signParams(request);
+            RetrofitClient.sendCommonRequest(params, request.getResponseClass(), callBack);
+        }
+    }
+
+    /**
+     * sync call the internal handler function of the gateway API
+     *
+     * @param request
      * @param callBack
      */
     public void execute(BaseRequest request, PdsResponseCallBack callBack) {
